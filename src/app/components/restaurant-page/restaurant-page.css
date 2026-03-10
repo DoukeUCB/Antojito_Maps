@@ -1,9 +1,15 @@
+.offers,
 .menu {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+.offer-item {
+  border: 2px solid orange;
+  padding: 12px;
+  border-radius: 8px;
+}
 
 .menu-item {
   border: 1px solid #ccc;
