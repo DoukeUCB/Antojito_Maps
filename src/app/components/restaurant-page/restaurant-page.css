@@ -16,3 +16,11 @@
   padding: 12px;
   border-radius: 8px;
 }
+
+.restaurant-info {
+  margin-bottom: 20px;
+}
+
+.restaurant-info p {
+  margin: 4px 0;
+}
