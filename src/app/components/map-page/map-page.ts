@@ -59,17 +59,38 @@ export class MapPage implements OnInit {
  
   private addRestaurants(): void {
 
-    this.restaurants.forEach(restaurant => {
+  this.restaurants.forEach(restaurant => {
 
-      const marker = L.marker([restaurant.lat, restaurant.lng]).addTo(this.map);
+    const marker = L.marker([restaurant.lat, restaurant.lng]).addTo(this.map);
 
-      marker.bindPopup(`
-        <b>${restaurant.name}</b><br>
-        ${restaurant.description}
-      `);
+    marker.bindPopup(`
+      <div style="text-align:center; width:200px">
 
-    });
+        <img src="/assets/logo-panchita.png"
+             style="width:80px; margin-bottom:8px; border-radius:8px">
 
-  }
+        <h3 style="margin:5px 0">${restaurant.name}</h3>
+        <p style="font-size:14px; margin:0 0 10px 0"">
+          ${restaurant.description}
+        </p>
+
+        <a href="/restaurant"
+           style="
+             background:#7F1100;
+             color:white;
+             padding:6px 12px;
+             border-radius:6px;
+             text-decoration:none;
+             font-size:14px
+           ">
+           Ver restaurante
+        </a>
+
+      </div>
+    `);
+
+  });
+
+}
 
 }
