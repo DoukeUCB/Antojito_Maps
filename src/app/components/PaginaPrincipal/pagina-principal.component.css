@@ -107,3 +107,9 @@
     padding: 30px 20px;
   }
 }
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}
