@@ -1,0 +1,78 @@
+<div class="login-wrapper">
+  
+  <div class="app-header">
+    <h1>Antojitos Maps</h1>
+  </div>
+
+  <div class="login-container">
+    <form class="login-form">
+      <h2>Registro de Restaurante</h2>
+
+      <!-- Nombre -->
+      <div class="form-group">
+        <label>Nombre del Restaurante</label>
+        <div class="input-with-icon">
+          <i class="fas fa-store input-icon"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="name"
+            name="name"
+            placeholder="Ingresa el nombre">
+        </div>
+        <small class="error" *ngIf="errorName">{{ errorName }}</small>
+      </div>
+
+      <!-- Correo -->
+      <div class="form-group">
+        <label>Correo</label>
+        <div class="input-with-icon">
+          <i class="fas fa-envelope input-icon"></i>
+          <input 
+            type="email" 
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Ingresa el correo">
+        </div>
+        <small class="error" *ngIf="errorEmail">{{ errorEmail }}</small>
+      </div>
+
+      <!-- Contraseña -->
+      <div class="form-group">
+        <label>Contraseña</label>
+        <div class="input-with-icon">
+          <i class="fas fa-lock input-icon"></i>
+
+          <input 
+            [type]="showPassword ? 'text' : 'password'"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Ingresa la contraseña">
+
+          <i 
+            class="fas toggle-password-icon" 
+            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" 
+            (click)="togglePasswordVisibility()">
+          </i>
+        </div>
+        <small class="error" *ngIf="errorPassword">{{ errorPassword }}</small>
+      </div>
+
+      <div class="button-group">
+        <button 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="register()">
+          Registrarse
+        </button>
+
+        <button 
+        type="button" 
+        class="btn btn-secondary" 
+        (click)="goToLogin()">
+        Volver al Login
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
