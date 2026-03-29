@@ -1,51 +1,81 @@
 <div class="restaurant-container">
-
   <header class="restaurant-header">
     <div class="header-content">
-
       <h1>Pollos Panchita</h1>
-
       <div class="restaurant-meta">
         <span>📍 Av. América, Cochabamba</span>
         <span>⭐ 4.6</span>
         <span>🍗 Pollo frito</span>
       </div>
-
       <p class="restaurant-description">
         Restaurante especializado en pollo frito con combos familiares y promociones.
       </p>
-
     </div>
   </header>
 
   <section class="offers-section">
-    <h2>Ofertas</h2>
-
+    <h2>Ofertas Especiales</h2>
     <div class="offers">
-      <div class="offer-item">
-        <h3>10% de descuento de Combo 1</h3>
-        <p>Papas + Arroz + 2 Presas de Pollo + Refresco</p>
-        <span class="price">Bs 21.6</span>
-      </div>
+      @for (promo of promociones; track promo.id) {
+        <div class="offer-item">
+          <div class="item-info">
+            <h3>{{ promo.nombre }}</h3>
+            <p>{{ promo.descripcion }}</p>
+            <span class="price">Bs {{ promo.precio }}</span>
+          </div>
+          <div class="admin-actions">
+            <button class="btn-icon edit" (click)="editarPromo(promo)">📝</button>
+            <button class="btn-icon delete" (click)="eliminarPromo(promo.id)">🗑️</button>
+          </div>
+        </div>
+      }
     </div>
   </section>
 
   <section class="menu-section">
-    <h2>Menú</h2>
-
+    <h2>Menú General</h2>
     <div class="menu">
-      <div class="menu-item">
-        <h3>2 Presas</h3>
-        <p>Papas + arroz + 2 presas de pollo</p>
-        <span class="price">Bs 45</span>
-      </div>
-
-      <div class="menu-item">
-        <h3>Combo 1</h3>
-        <p>Papas + Arroz + 2 Presas de Pollo + Refresco</p>
-        <span class="price">Bs 35</span>
-      </div>
+      @for (item of menu; track item.id) {
+        <div class="menu-item">
+          <div class="item-info">
+            <h3>{{ item.nombre }}</h3>
+            <p>{{ item.descripcion }}</p>
+            <span class="price">Bs {{ item.precio }}</span>
+          </div>
+          <div class="admin-actions">
+            <button class="btn-icon edit" (click)="editarMenu(item)">📝</button>
+            <button class="btn-icon delete" (click)="eliminarMenu(item.id)">🗑️</button>
+          </div>
+        </div>
+      }
     </div>
   </section>
+  <div class="restaurant-container">
+  @if (editandoItem) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Editar {{ esPromo ? 'Promoción' : 'Producto' }}</h3>
+          <button class="close-btn" (click)="cerrarModal()">×</button>
+        </div>
+        
+        <div class="modal-body">
+          <label>Nombre:</label>
+          <input type="text" [(ngModel)]="itemTemporal.nombre">
+          
+          <label>Descripción:</label>
+          <textarea [(ngModel)]="itemTemporal.descripcion"></textarea>
+          
+          <label>Precio (Bs):</label>
+          <input type="number" [(ngModel)]="itemTemporal.precio">
+        </div>
 
+        <div class="modal-footer">
+          <button class="btn-cancel" (click)="cerrarModal()">Cancelar</button>
+          <button class="btn-save" (click)="guardarCambios()">Guardar Cambios</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>
 </div>
