@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 
@@ -17,12 +18,13 @@ interface Restaurante {
   lat: number;
   lng: number;
   descripcion: string;
+  categoria: string;
 }
 
 @Component({
   selector: 'app-map-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './map-page.html',
   styleUrl: './map-page.css'
 })
@@ -30,23 +32,49 @@ export class MapPage implements OnInit {
 
   private map: any;
   mostrarBienvenida: boolean = true;
+  categoriaSeleccionada: string = '';
+  restaurantesFiltrados: Restaurante[] = [];
+  markersLayer: any;
   
   //DICCIONARIO DE MARCADORES
   private markersMap: Map<number, L.Marker> = new Map(); 
 
   restaurantes: Restaurante[] = [
-    { id: 1, nombre: 'Pollos Panchita', lat: -17.3895, lng: -66.1568, descripcion: 'Pollo frito y combos familiares' },
-    { id: 2, nombre: 'Burger House', lat: -17.3950, lng: -66.1600, descripcion: 'Hamburguesas artesanales' },
-    { id: 3, nombre: 'Pizza Loca', lat: -17.3920, lng: -66.1500, descripcion: 'Pizzas con promociones' }
-  ];
+  {
+    id: 1,
+    nombre: 'Pollos Panchita',
+    lat: -17.3895,
+    lng: -66.1568,
+    descripcion: 'Pollo frito y combos familiares',
+    categoria: 'pollo frito' 
+  },
+  {
+    id: 2,
+    nombre: 'Burger House',
+    lat: -17.3950,
+    lng: -66.1600,
+    descripcion: 'Hamburguesas artesanales',
+    categoria: 'comida rapida'
+  },
+  {
+    id: 3,
+    nombre: 'Pizza Loca',
+    lat: -17.3920,
+    lng: -66.1500,
+    descripcion: 'Pizzas con promociones',
+    categoria: 'italiana'
+  }
+];
 
   constructor(private router: Router, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.initMap();
+
+    this.markersLayer = L.layerGroup().addTo(this.map); 
+    this.restaurantesFiltrados = this.restaurantes;
+
     this.agregarMarcadores();
-    this.configurarGeolocalizacion();
-    this.iniciarTemporizadorBienvenida();
   }
 
   buscarRestaurante(termino: string): void {
@@ -104,29 +132,31 @@ export class MapPage implements OnInit {
     });
   }
 
-  private agregarMarcadores(): void {
-    this.restaurantes.forEach(restaurante => {
-      const marker = L.marker([restaurante.lat, restaurante.lng])
-        .addTo(this.map);
+private agregarMarcadores(): void {
 
-      this.markersMap.set(restaurante.id, marker);
+  this.markersLayer.clearLayers(); // limpia markers
 
-      marker.bindPopup(`
-        <div style="text-align:center; width:200px">
-          <img src="/assets/logo-panchita.png"
-               style="width:80px; margin-bottom:8px; border-radius:8px">
-          <h3 style="margin:5px 0">${restaurante.nombre}</h3>
-          <p style="font-size:14px; margin:0 0 10px 0">
-            ${restaurante.descripcion}
-          </p>
-          <button
-            style="background:#7F1100; color:white; padding:6px 12px; border-radius:6px; border:none; cursor:pointer"
-            onclick="window.location.href='/restaurant'"
-          >
-            Ver restaurante
-          </button>
-        </div>
-      `);
-    });
+  this.restaurantesFiltrados.forEach(restaurante => {
+    const marker = L.marker([restaurante.lat, restaurante.lng])
+      .addTo(this.markersLayer);
+
+    marker.bindPopup(`
+      <b>${restaurante.nombre}</b><br>
+      ${restaurante.descripcion}
+    `);
+  });
   }
+
+  filtrarRestaurantes(): void {
+
+  if (this.categoriaSeleccionada === '') {
+    this.restaurantesFiltrados = this.restaurantes;
+  } else {
+    this.restaurantesFiltrados = this.restaurantes.filter(r =>
+      r.categoria === this.categoriaSeleccionada
+    );
+  }
+
+  this.agregarMarcadores(); 
+}
 }
