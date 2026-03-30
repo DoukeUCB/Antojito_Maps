@@ -34,7 +34,9 @@ export class RestaurantLoginComponent {
     const success = true;
 
     if (success) {
-      this.logger.info('Login exitoso');
+      this.logger.info('Login exitoso', {
+      email: 'test@gmail.com'
+    });
 
       this.router.navigate(['/restaurant']);
     } else {
