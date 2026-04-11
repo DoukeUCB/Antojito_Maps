@@ -17,7 +17,7 @@ export class RestauranteService {
     return this.http.get<any[]>(this.API_URL);
   }
 
-  getRestauranteById(id: number): Observable<Restaurante> {
+  getRestauranteById(id: string): Observable<Restaurante> {
   return this.http.get<Restaurante>(`${this.API_URL}/get/${id}`);
   }
 }

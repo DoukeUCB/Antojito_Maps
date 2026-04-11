@@ -1,0 +1,66 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(2, 51, 45, 0.4); /* Verde oscuro con transparencia */
+  backdrop-filter: blur(4px); /* Efecto cristal moderno */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.modal-title {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.25rem;
+  color: #02332D;
+}
+
+.btn-close {
+  background: transparent;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  transition: all 0.2s ease;
+}
+
+.btn-close:hover {
+  background: #F1F5F9;
+  color: #e53e3e; /* Rojo al pasar el mouse */
+}
+
+.modal-body {
+  padding: 1.5rem;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+/* Animaciones suaves */
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

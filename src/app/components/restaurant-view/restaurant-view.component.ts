@@ -25,14 +25,14 @@ export class RestaurantView implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    // Obtenemos el ID de la URL
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.cargarDatosRestaurante(Number(id));
+      // Le pasamos el 'id' directamente como string, ya no usamos Number(id)
+      this.cargarDatosRestaurante(id);
     }
   }
 
-  cargarDatosRestaurante(id: number) {
+  cargarDatosRestaurante(id: string) {
     this.restauranteService.getRestauranteById(id).subscribe({
       next: (data: Restaurante) => {
         this.restaurante = data;
@@ -41,7 +41,7 @@ export class RestaurantView implements OnInit {
           { id: 2, nombre: 'Duo Pack', desc: 'Ideal para compartir', precio: 45 }
         ];
       },
-      error: (err: any) => { // <--- Agregamos : any
+      error: (err: any) => { 
         console.error('Error al cargar restaurante', err);
       }
     });

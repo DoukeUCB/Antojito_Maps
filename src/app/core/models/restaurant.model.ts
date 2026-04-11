@@ -1,13 +1,16 @@
 export interface Restaurante {
-  id: number;
+  id?: string;
+  uuid?: string;
   nombre: string;
-  descripcion: string;
-  categoria: string;
+  name?: string; 
+  categoria?: string;
+  category?: string;
   latitud?: number;
   longitud?: number;
-  lat?: number; // Compatibilidad legacy
-  lng?: number; // Compatibilidad legacy
-  imagenUrl?: string;
+  latitude?: number;
+  longitude?: number;
+  descripcion?: string;
+  description?: string;
 }
 
 export interface Promocion {
