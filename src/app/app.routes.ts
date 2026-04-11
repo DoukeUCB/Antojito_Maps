@@ -1,12 +1,12 @@
 import { Routes } from '@angular/router';
-import { MapPage } from './components/map-page/map-page';
-import { RestaurantPage } from './components/restaurant-page/restaurant-page';
-import { PaginaPrincipalComponent } from './components/PaginaPrincipal/pagina-principal.component';
+import { MapPage } from './components/map-page/map-page.component';
+import { RestaurantPage } from './components/restaurant-page/restaurant-page.component';
+import { PaginaPrincipalComponent } from './components/principal-page/pagina-principal.component';
 import { RestaurantLoginComponent } from './components/login-restaurant/restaurant-login.component';
 import { RegisterRestaurantComponent } from './components/register-restaurant/register-restaurant.component';
 import { PaymentOptionsComponent } from './components/payment-options/payment-options.component';
 import { QrPaymentComponent } from './components/qr-payment/qr-payment.component';
-import { RestaurantView } from './components/restaurant-view/restaurant-view';
+import { RestaurantView } from './components/restaurant-view/restaurant-view.component';
 export const routes: Routes = [
   {
     path: 'restaurant',
