@@ -20,34 +20,34 @@ export class MapPage implements OnInit, AfterViewInit {
 
   categorias = [
     { label: 'Todas',         slug: '' },
+    { label: 'Salteñas',      slug: 'Salteñas' },
+    { label: 'Chicharrón',    slug: 'Chicharron' },
     { label: 'Sushi',         slug: 'Sushi' },
     { label: 'Comida Típica', slug: 'Comida Tipica' },
     { label: 'Pizzería',      slug: 'Pizzeria' },
-    { label: 'Salteñas',      slug: 'Salteñas' },
-    { label: 'Chicharrón',    slug: 'Chicharron' },
     { label: 'Hamburguesas',  slug: 'Hamburguesas' },
     { label: 'Tacos',         slug: 'Tacos' },
     { label: 'Parrilla',      slug: 'Parrilla' },
   ];
 
   categoriaSeleccionada: string = '';
-  textoBusqueda: string = '';
-  mostrarBienvenida: boolean = true;
-  sinResultados: boolean = false;
+  textoBusqueda:         string = '';
+  mostrarBienvenida:     boolean = true;
+  sinResultados:         boolean = false;
   categoriaSinResultados: string = '';
-  cargando: boolean = false;
-  errorApi: boolean = false;
+  cargando:              boolean = false;
+  errorApi:              boolean = false;
 
   private restaurantes: any[] = [];
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private ngZone: NgZone,
+    private route:              ActivatedRoute,
+    private router:             Router,
+    private ngZone:             NgZone,
     private restauranteService: RestauranteService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.categoriaSeleccionada = params['categoria'] || '';
       if (this.map) {
@@ -56,13 +56,14 @@ export class MapPage implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.initMap();
     this.obtenerUbicacion();
     this.cargarRestaurantes();
   }
 
-  private initMap() {
+  // ── Inicializar mapa ─────────────────────────
+  private initMap(): void {
     this.map = L.map('map', {
       center: [-17.3935, -66.1568],
       zoom: 15,
@@ -76,7 +77,8 @@ export class MapPage implements OnInit, AfterViewInit {
     this.markersLayer.addTo(this.map);
   }
 
-  private obtenerUbicacion() {
+  // ── Geolocalización ──────────────────────────
+  private obtenerUbicacion(): void {
     if (!navigator.geolocation) return;
 
     navigator.geolocation.getCurrentPosition(
@@ -84,14 +86,13 @@ export class MapPage implements OnInit, AfterViewInit {
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
 
-        // Icono de ubicación del usuario
         const iconoUbicacion = L.divIcon({
           className: 'user-location-marker',
           html: `
             <div class="user-pulse-ring"></div>
             <div class="user-dot"></div>
           `,
-          iconSize: [20, 20],
+          iconSize:   [20, 20],
           iconAnchor: [10, 10]
         });
 
@@ -102,18 +103,17 @@ export class MapPage implements OnInit, AfterViewInit {
             .addTo(this.map);
         }
 
-        // Centra el mapa en la ubicación del usuario
         this.map.setView([lat, lng], 15);
       },
       (err) => {
-        console.warn('Geolocalización denegada o no disponible:', err.message);
-        // Si no hay permiso, el mapa queda centrado en Cochabamba por defecto
+        console.warn('Geolocalización denegada:', err.message);
       },
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }
 
-  cargarRestaurantes() {
+  // ── Cargar desde backend ─────────────────────
+  cargarRestaurantes(): void {
     this.cargando = true;
     this.errorApi = false;
 
@@ -121,7 +121,6 @@ export class MapPage implements OnInit, AfterViewInit {
       if (this.cargando) {
         this.cargando = false;
         this.errorApi = true;
-        console.warn('La API tardó demasiado. Mostrando mapa sin datos.');
       }
     }, 8000);
 
@@ -138,7 +137,6 @@ export class MapPage implements OnInit, AfterViewInit {
         } else if (data?.content && Array.isArray(data.content)) {
           this.restaurantes = data.content;
         } else {
-          console.warn('Formato de respuesta inesperado:', data);
           this.restaurantes = [];
         }
 
@@ -154,7 +152,8 @@ export class MapPage implements OnInit, AfterViewInit {
     });
   }
 
-  filtrarRestaurantes() {
+  // ── Filtrar y pintar marcadores ──────────────
+  filtrarRestaurantes(): void {
     this.markersLayer.clearLayers();
 
     const filtrados = this.restaurantes.filter(r => {
@@ -173,66 +172,124 @@ export class MapPage implements OnInit, AfterViewInit {
       c.slug.toLowerCase() === this.categoriaSeleccionada.toLowerCase()
     )?.label || this.categoriaSeleccionada;
 
-    this.sinResultados = filtrados.length === 0 && !!this.categoriaSeleccionada;
+    this.sinResultados    = filtrados.length === 0 && !!this.categoriaSeleccionada;
     this.categoriaSinResultados = catLabel;
     this.mostrarBienvenida = filtrados.length === 0 && !this.categoriaSeleccionada;
 
     filtrados.forEach(r => {
-      const lat = r.latitude ?? r.lat ?? r.latitud;
+      const lat = r.latitude  ?? r.lat ?? r.latitud;
       const lng = r.longitude ?? r.lng ?? r.longitud;
       if (!lat || !lng) return;
 
+      // ── Icono del pin ──────────────────────
       const icono = L.divIcon({
         className: 'custom-restaurant-marker',
         html: `<div class="marker-pin"><div class="marker-inner"></div></div>`,
-        iconSize: [28, 36],
+        iconSize:   [28, 36],
         iconAnchor: [14, 36]
       });
 
-      const nombre = r.name ?? r.nombre ?? 'Restaurante';
-      const descripcion = r.description ?? r.descripcion ?? (r.category ?? r.categoria ?? '');
+      // ── Datos del restaurante ──────────────
+      const nombre      = r.name        ?? r.nombre      ?? 'Restaurante';
+      const descripcion = r.description ?? r.descripcion ?? '';
+      const imagen      = r.image_url   ?? r.imageUrl    ?? '';
+      const categoria   = r.category    ?? r.categoria   ?? '';
+      const uuid        = r.id          ?? r.uuid         ?? '';
+
+      // ── Imagen del popup ───────────────────
+      const imagenHtml = imagen
+        ? `<img
+             src="${imagen}"
+             alt="${nombre}"
+             style="width:100%;height:110px;object-fit:cover;
+                    border-radius:10px 10px 0 0;display:block;"
+             onerror="this.style.display='none'">`
+        : `<div style="width:100%;height:70px;background:#f0ebe3;
+                       border-radius:10px 10px 0 0;display:flex;
+                       align-items:center;justify-content:center;font-size:32px;">
+             🍽️
+           </div>`;
+
+      // ── Contenido del popup ────────────────
+      const popupHtml = `
+        <div style="
+          font-family:'Inter',sans-serif;
+          width:210px;
+          border-radius:10px;
+          overflow:hidden;
+          margin:-14px -20px -14px;
+        ">
+          ${imagenHtml}
+          <div style="padding:12px 14px 14px;">
+            <span style="
+              font-size:10px;font-weight:700;
+              color:#BF9861;text-transform:uppercase;
+              letter-spacing:0.8px;">
+              ${categoria}
+            </span>
+            <p style="
+              margin:5px 0 5px;font-size:14px;
+              font-weight:700;color:#02332D;line-height:1.2;">
+              ${nombre}
+            </p>
+            <p style="
+              margin:0 0 12px;font-size:12px;
+              color:#666;line-height:1.4;">
+              ${descripcion || 'Sin descripción disponible'}
+            </p>
+          </div>
+        </div>
+      `;
 
       const marker = L.marker([lat, lng], { icon: icono });
-      marker.bindPopup(`
-        <div style="font-family:'Inter',sans-serif; min-width:160px;">
-          <strong style="color:#02332D; font-size:14px;">${nombre}</strong><br>
-          <small style="color:#888;">${descripcion}</small>
-        </div>
-      `);
 
-      marker.on('click', () => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/restaurant', r.uuid ?? r.id]);
-        });
+      marker.bindPopup(popupHtml, {
+        maxWidth:  230,
+        className: 'custom-popup'
+      });
+
+      // Botón popup
+      marker.on('popupopen', () => {
+        setTimeout(() => {
+          const btn = document.getElementById(`btn-ver-${uuid}`);
+          if (btn) {
+            btn.addEventListener('click', () => {
+              this.ngZone.run(() => {
+                this.router.navigate(['/restaurant-view', uuid]);
+              });
+            });
+          }
+        }, 50);
       });
 
       this.markersLayer.addLayer(marker);
     });
   }
 
-  buscarRestaurante(texto: string) {
+  // ── Acciones del header ──────────────────────
+  buscarRestaurante(texto: string): void {
     this.textoBusqueda = texto;
     this.filtrarRestaurantes();
   }
 
-  seleccionarCategoria(slug: string) {
+  seleccionarCategoria(slug: string): void {
     this.categoriaSeleccionada = slug;
     this.router.navigate([], {
-      queryParams: { categoria: slug || null },
+      queryParams:       { categoria: slug || null },
       queryParamsHandling: 'merge'
     });
     this.filtrarRestaurantes();
   }
 
-  verTodasLasCategorias() {
+  verTodasLasCategorias(): void {
     this.seleccionarCategoria('');
   }
 
-  volverAlInicio() {
+  volverAlInicio(): void {
     this.router.navigate(['/inicio']);
   }
 
-  centrarEnMiUbicacion() {
+  centrarEnMiUbicacion(): void {
     this.obtenerUbicacion();
   }
 }

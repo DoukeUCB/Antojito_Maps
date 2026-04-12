@@ -1,14 +1,14 @@
 <div class="map-container">
 
-  <!-- Header -->
+  <!-- ── Header ─────────────────────────────── -->
   <header class="map-header">
     <div class="header-left">
       <button class="btn-back" (click)="volverAlInicio()" title="Volver al inicio">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2.5"
-          stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
         </svg>
       </button>
       <div class="logo-section">
@@ -18,17 +18,20 @@
     </div>
 
     <div class="header-right">
-      <button class="btn-location" (click)="centrarEnMiUbicacion()" title="Mi ubicación">
+      <button class="btn-location"
+              (click)="centrarEnMiUbicacion()"
+              title="Mi ubicación">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
-          <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"></path>
+             stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+          <path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/>
         </svg>
       </button>
+
       <div class="search-box">
-        <span class="search-icon">🔍</span>
+        <i class="fas fa-search search-icon"></i>
         <input
           type="text"
           #txtBuscar
@@ -39,7 +42,7 @@
     </div>
   </header>
 
-  <!-- Chips de categoría -->
+  <!-- ── Chips de categoría ─────────────────── -->
   <div class="category-bar">
     @for (cat of categorias; track cat.slug) {
       <button
@@ -51,7 +54,7 @@
     }
   </div>
 
-  <!-- Cuerpo del mapa -->
+  <!-- ── Área del mapa ──────────────────────── -->
   <div class="map-wrapper">
 
     <!-- Loading -->
@@ -62,34 +65,41 @@
       </div>
     }
 
-    <!-- Error API (timeout o fallo) -->
+    <!-- Error de API -->
     @if (errorApi) {
       <div class="api-error-banner">
-        <span>⚠️ No se pudieron cargar los restaurantes. El servidor puede estar en pausa.</span>
+        <span>⚠️ No se pudieron cargar los restaurantes.</span>
         <button (click)="cargarRestaurantes()">Reintentar</button>
       </div>
     }
 
+    <!-- El mapa Leaflet se monta aquí -->
     <div id="map"></div>
 
-    <!-- Overlay bienvenida -->
+    <!-- Overlay de bienvenida -->
     @if (mostrarBienvenida && !cargando) {
       <div class="overlay-card">
         <p class="overlay-title">¡Bienvenido!</p>
-        <p class="overlay-sub">Explora los mejores sabores de la ciudad en un solo mapa.</p>
+        <p class="overlay-sub">
+          Explora los mejores sabores de Cochabamba en un solo mapa.
+        </p>
         <hr class="divider">
-        <p class="overlay-hint">Haz clic en los marcadores para ver las promociones disponibles.</p>
+        <p class="overlay-hint">
+          Haz clic en los marcadores para ver el menú y promociones.
+        </p>
       </div>
     }
 
-    <!-- Sin resultados -->
+    <!-- Sin resultados para la categoría -->
     @if (sinResultados && !cargando) {
       <div class="empty-state-card">
         <span class="empty-icon">🍽️</span>
-        <p class="empty-title">Sin resultados en "{{ categoriaSinResultados }}"</p>
+        <p class="empty-title">
+          Sin resultados en "{{ categoriaSinResultados }}"
+        </p>
         <p class="empty-sub">
           Aún no hay restaurantes registrados en esta categoría.<br>
-          ¡Explora las otras opciones!
+          ¡Explora las otras opciones disponibles!
         </p>
         <button class="btn-explore" (click)="verTodasLasCategorias()">
           Ver todas las categorías
