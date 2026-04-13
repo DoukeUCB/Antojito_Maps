@@ -1,20 +1,31 @@
 <div class="container">
 
   <div class="header">
-    <h2>ANTOJITOS MAPS</h2>
+    <h2>AntojitosMaps</h2>
     <button class="btn-admin" (click)="irAdmin()">Administrar</button>
+  </div>
+
+  <div class="location">
+    📍 COCHABAMBA - BOLIVIA
+  </div>
+
+  <div class="title">
+    <h1>Panel de restaurantes</h1>
+    <p>Administra el estado y suscripciones de los restaurantes.</p>
   </div>
 
   <div class="grid">
 
     <div class="card" *ngFor="let r of restaurantes">
 
-      <span class="lock">{{ r.bloqueado ? '🔒' : '🔓' }}</span>
+      <div class="lock">
+        {{ r.bloqueado ? '🔒' : '🔓' }}
+      </div>
 
       <h3>{{ r.nombre }}</h3>
 
-      <p>Suscripción: {{ r.plan }}</p>
-      <p>Tiempo restante: {{ r.tiempo }}</p>
+      <p><strong>Suscripción:</strong> {{ r.plan }}</p>
+      <p><strong>Tiempo restante:</strong> {{ r.tiempo }}</p>
 
       <button (click)="toggleBloqueo(r)">
         {{ r.bloqueado ? 'Desbloquear' : 'Bloquear' }}

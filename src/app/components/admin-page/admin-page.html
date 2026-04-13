@@ -1,22 +1,33 @@
 <div class="admin-container">
 
-  <h1>ANTOJITO MAPS</h1>
+  <!-- HEADER -->
+  <div class="header">
+    <h2>Antojitos<span>Maps</span></h2>
+  </div>
 
-  <div class="opciones">
+  <!-- CONTENIDO -->
+  <div class="content">
 
-    <div class="card" (click)="irAgregar()">
-      👤➕
-      <p>Agregar Administrador</p>
-    </div>
+    <h1>Panel de administración</h1>
+    <p>Gestiona los administradores del sistema</p>
 
-    <div class="card" (click)="irEditar()">
-      🔍
-      <p>Editar Administrador</p>
-    </div>
+    <div class="cards">
 
-    <div class="card" (click)="irEliminados()">
-      🗑️
-      <p>Administradores eliminados</p>
+      <div class="card" (click)="irAgregar()">
+        <div class="icon">👤➕</div>
+        <p>Agregar Administrador</p>
+      </div>
+
+      <div class="card" (click)="irEditar()">
+        <div class="icon">🔍</div>
+        <p>Editar Administrador</p>
+      </div>
+
+      <div class="card" (click)="irEliminados()">
+        <div class="icon">🗑️</div>
+        <p>Administradores eliminados</p>
+      </div>
+
     </div>
 
   </div>

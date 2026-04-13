@@ -15,8 +15,11 @@ export class AdminRestaurantsComponent {
 
   restaurantes = [
     { nombre: 'MAMA CHICKEN', plan: 'Ninguna', tiempo: '0 días', bloqueado: false },
+    { nombre: 'ROAST AND ROLL', plan: 'Mensual', tiempo: '5 días', bloqueado: false },
+    { nombre: 'SUBWAY', plan: 'Anual', tiempo: '125 días', bloqueado: true },
+    { nombre: 'POLLOS COPACABANA', plan: 'Ninguna', tiempo: '0 días', bloqueado: false },
     { nombre: 'BURGER KING', plan: 'Mensual', tiempo: '11 días', bloqueado: true },
-    { nombre: 'SUBWAY', plan: 'Anual', tiempo: '125 días', bloqueado: false }
+    { nombre: 'PIZZA ELIS', plan: 'Mensual', tiempo: '1 día', bloqueado: false }
   ];
 
   toggleBloqueo(r: any) {
