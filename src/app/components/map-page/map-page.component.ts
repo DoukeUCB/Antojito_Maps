@@ -197,37 +197,56 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
       const descripcion = r.description ?? r.descripcion ?? noDesc;
       const categoria = r.category ?? r.categoria ?? '';
       const imagen = r.imagenUrl ?? r.image_url ?? r.imageUrl ?? r.imagen_url ?? '';
-      const popupHtml = this.buildPopupHtml(nombre, descripcion, categoria, imagen);
+      const uuid = r.uuid ?? r.id ?? '';
+      const popupHtml = this.buildPopupHtml(nombre, descripcion, categoria, imagen, uuid);
 
-      const marker = L.marker([lat, lng], { icon: icono }).bindPopup(popupHtml, { maxWidth: 290, className: 'custom-popup' });
+      const marker = L.marker([lat, lng], { icon: icono })
+        .bindPopup(popupHtml, { maxWidth: 290, className: 'custom-popup' });
+
+      marker.on('popupopen', () => {
+        
+        setTimeout(() => {
+          const btn = document.querySelector<HTMLButtonElement>(
+            `.restaurant-popup-btn[data-uuid="${r.uuid ?? r.id ?? ''}"]`
+          );
+          if (btn) {
+            btn.addEventListener('click', () => {
+              this.router.navigate(['restaurant-view/:uuid', btn.dataset['uuid']]);
+            });
+          }
+        }, 50);
+      });
+
       this.markersLayer.addLayer(marker);
     });
   }
 
-  private buildPopupHtml(nombre: string, descripcion: string, categoria: string, imagen: string): string {
-    const safeNombre = this.escapeHtml(nombre || 'Restaurante');
+  private buildPopupHtml(
+    nombre: string,
+    descripcion: string,
+    categoria: string,
+    imagen: string,
+    uuid: string
+  ): string {
+    const safeNombre     = this.escapeHtml(nombre      || 'Restaurante');
     const safeDescripcion = this.escapeHtml(descripcion || this.translate.instant('MAP.NO_DESC'));
-    const safeCategoria = this.escapeHtml(categoria || 'Sin categoria');
+    const safeCategoria  = this.escapeHtml(categoria   || 'Sin categoría');
+    const safeImagen     = this.escapeHtml(imagen      || '');
+    const btnLabel       = this.translate.instant('MAP.VIEW_RESTAURANT') || 'Ver restaurante';
 
-    const safeImagen = this.escapeHtml(imagen || '');
     const mediaHtml = safeImagen
-      ? `
-          <div class="restaurant-popup-media">
-            <img
-              class="restaurant-popup-image"
-              src="${safeImagen}"
-              alt="Foto de ${safeNombre}"
-              loading="lazy"
-              onerror="this.parentElement.classList.add('no-image'); this.remove();"
-            />
-                 <div class="restaurant-popup-fallback" aria-hidden="true">🍽️</div>
-          </div>
-        `
-      : `
-          <div class="restaurant-popup-media no-image">
-            <div class="restaurant-popup-fallback only" aria-hidden="true">🍽️</div>
-          </div>
-        `;
+      ? `<div class="restaurant-popup-media">
+           <img
+             class="restaurant-popup-image"
+             src="${safeImagen}"
+             alt="Foto de ${safeNombre}"
+             loading="lazy"
+             onerror="this.parentElement.classList.add('no-image'); this.remove();">
+           <div class="restaurant-popup-fallback" aria-hidden="true">🍽️</div>
+         </div>`
+      : `<div class="restaurant-popup-media no-image">
+           <div class="restaurant-popup-fallback only" aria-hidden="true">🍽️</div>
+         </div>`;
 
     return `
       <article class="restaurant-popup-card">
@@ -236,6 +255,18 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
           <span class="restaurant-popup-category">${safeCategoria}</span>
           <h3 class="restaurant-popup-title">${safeNombre}</h3>
           <p class="restaurant-popup-desc">${safeDescripcion}</p>
+          <button
+            class="restaurant-popup-btn"
+            data-uuid="${uuid}"
+            type="button">
+            ${btnLabel}
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
         </div>
       </article>
     `;
