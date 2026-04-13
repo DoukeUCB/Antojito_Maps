@@ -19,10 +19,6 @@ export const routes: Routes = [
     component: RestaurantPage
   },
   {
-    path: 'admin/create',
-    component: AdminCreate
-  },
-  {
     path: 'admin/login',
     component: AdminLogin
   },
@@ -32,7 +28,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/agregar',
-    component: AdminPageComponent
+    component: AdminCreate
   },
   {
     path: 'admin/editar',
