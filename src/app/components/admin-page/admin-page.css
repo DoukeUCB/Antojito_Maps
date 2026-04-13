@@ -1,0 +1,82 @@
+.admin-container {
+  min-height: 100vh;
+  background: var(--color-secondary); /* verde oscuro */
+  color: var(--color-neutral);
+}
+
+/* HEADER */
+.header {
+  padding: 30px 50px;
+}
+
+.header h2 {
+  font-family: var(--font-heading);
+  color: var(--color-neutral);
+  font-size: 24px;
+}
+
+.header span {
+  color: var(--color-accent);
+}
+
+/* CONTENIDO */
+.content {
+  padding: 50px;
+  text-align: center;
+}
+
+.content h1 {
+  font-family: var(--font-heading);
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  color: #cfc6b8;
+  margin-bottom: 40px;
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* CARD ESTILO PREMIUM */
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  width: 220px;
+  cursor: pointer;
+  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid var(--color-accent);
+}
+
+
+.icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+
+.card p {
+  font-weight: 500;
+  color: var(--color-neutral);
+}
+.subtexto {
+  font-family: var(--font-body); 
+  font-size: 16px;
+  color: var(--color-neutral); 
+  opacity: 0.8; 
+  line-height: 1.6;
+  max-width: 500px;
+  margin: 0 auto 40px auto;
+}

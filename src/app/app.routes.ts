@@ -8,19 +8,39 @@ import { PaymentOptionsComponent } from './components/payment-options/payment-op
 import { QrPaymentComponent } from './components/qr-payment/qr-payment.component';
 import { RestaurantView } from './components/restaurant-view/restaurant-view.component';
 import { AdminLogin } from './components/admin-login/admin-login';
+
+import { AdminPageComponent } from './components/admin-page/admin-page';
+import { AdminRestaurantsComponent } from './components/admin-restaurants/admin-restaurants.component';
 import { AdminCreate } from './components/admin-create/admin-create';
+
 export const routes: Routes = [
   {
     path: 'restaurant',
     component: RestaurantPage
   },
   {
-    path: 'admin/create',
+    path: 'admin/login',
+    component: AdminLogin
+  },
+   {
+    path: 'admin',
+    component: AdminPageComponent
+  },
+  {
+    path: 'admin/agregar',
     component: AdminCreate
   },
   {
-    path: 'admin/login',
-    component: AdminLogin
+    path: 'admin/editar',
+    component: AdminPageComponent
+  },
+  {
+    path: 'admin/eliminados',
+    component: AdminPageComponent
+  },
+  {
+    path: 'admin/restaurants',
+    component: AdminRestaurantsComponent
   },
   {
     path: 'restaurant/login',
