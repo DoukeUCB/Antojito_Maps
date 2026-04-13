@@ -20,7 +20,7 @@ export const routes: Routes = [
     component: RestaurantPage
   },
   {
-    path: 'admin/edit',
+    path: 'admin/editar',
     component: AdminEdit
   },
   {
