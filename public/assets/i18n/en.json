@@ -89,7 +89,11 @@
     "PROMO_TEXT": "Post promotions",
     "VISIBILITY_TEXT": "Higher visibility",
     "SELECT_BTN": "Select",
-    "CURRENCY": "Bs"
+    "CURRENCY": "Bs",
+    "TITLE_QR": "Scan the QR to pay",
+    "SELECTED_PLAN": "Selected plan",
+    "BTN_CONFIRM": "I have paid",
+    "QR_ALT": "Payment QR Code"
   },
   "REGISTER": {
     "NAV_BACK": "Back to login",
@@ -127,5 +131,33 @@
     "ERR_IMAGE_SIZE": "Image cannot exceed 5MB",
     "ERR_LOC": "Place a pin on the map to indicate your location",
     "COORD_UNDEFINED": "— undefined —"
+  },
+  "OWNER": {
+    "NAV_BADGE": "Owner Panel",
+    "LOGOUT": "Log out",
+    "SIDE_PROMOS": "Promotions",
+    "SIDE_MENU": "Menu",
+    "SIDE_VIEW_MAP": "View on map",
+    "STAT_ACTIVE_PROMOS": "Active promotions",
+    "STAT_MENU_ITEMS": "Menu items",
+    "SECTION_PROMOS_TITLE": "Active Promotions",
+    "SECTION_PROMOS_SUB": "Automatically hidden upon expiration",
+    "BTN_NEW_PROMO": "New promotion",
+    "EMPTY_PROMOS": "You have no active promotions",
+    "EMPTY_PROMOS_SUB": "Create a promotion to attract more customers",
+    "SECTION_MENU_TITLE": "Restaurant Menu",
+    "SECTION_MENU_SUB": "Dishes you offer to your customers",
+    "MODAL_EDIT_PROMO": "Edit promotion",
+    "MODAL_NEW_PROMO": "New promotion",
+    "MODAL_EDIT_DISH": "Edit dish",
+    "LBL_NAME": "Name",
+    "LBL_DESC": "Description",
+    "LBL_PRICE": "Price (Bs)",
+    "LBL_EXPIRATION": "Expiration date and time",
+    "HINT_EXPIRATION": "The offer will be automatically hidden when it expires.",
+    "BTN_CANCEL": "Cancel",
+    "BTN_SAVE": "Save changes",
+    "UNDO_MSG": "Item deleted",
+    "UNDO_BTN": "Undo"
   }
 }
