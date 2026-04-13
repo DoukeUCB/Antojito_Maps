@@ -521,8 +521,6 @@
 
   .category-bar { padding: 6px 1rem 8px; }
 
-  /* La tarjeta de bienvenida se oculta en móvil
-     para no tapar el mapa */
   .overlay-card { display: none; }
 
   .empty-state-card {
@@ -543,4 +541,28 @@
   .search-box { display: none; }
 
   .header-right .btn-location { margin-left: auto; }
+}
+
+::ng-deep .restaurant-popup-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 14px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-body);
+  margin-top: 4px;
+  transition: opacity 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+::ng-deep .restaurant-popup-btn:hover {
+  opacity: 0.88;
 }
