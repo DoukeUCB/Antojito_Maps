@@ -1,23 +1,48 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Restaurante } from '../models/restaurant.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestauranteService {
 
-  private API_URL = 'https://antogitomapsbackend-production.up.railway.app/api/restaurantes';
+  private BASE_URL = 'https://antogitomapsbackend-production.up.railway.app';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  // Método para obtener la lista de restaurantes desde Java -> Supabase
+  // GET /restaurant/all
   getRestaurantes(): Observable<any[]> {
-    return this.http.get<any[]>(this.API_URL);
+    return this.http.get<any[]>(`${this.BASE_URL}/restaurant/all`);
   }
 
-  getRestauranteById(id: string): Observable<Restaurante> {
-  return this.http.get<Restaurante>(`${this.API_URL}/get/${id}`);
+  // GET /restaurant/get/{id}
+  getRestauranteById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/restaurant/get/${id}`);
+  }
+
+  // DELETE /restaurant/delete/{id}
+  eliminarRestaurante(id: string): Observable<any> {
+    return this.http.delete<any>(`${this.BASE_URL}/restaurant/delete/${id}`);
+  }
+
+  // POST /restaurant/create
+  crearRestaurante(datos: any): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/restaurant/create`, datos);
+  }
+
+  // POST /restaurant/login
+  login(mail: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/restaurant/login`, { mail, password });
+  }
+
+  // POST /restaurant/registry
+  registro(mail: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/restaurant/registry`, { mail, password });
+  }
+
+  // POST /restaurant/logout
+  logout(mail: string): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/restaurant/logout`, { mail });
   }
 }
