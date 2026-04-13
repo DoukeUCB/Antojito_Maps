@@ -101,7 +101,9 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
             });
           });
         }
+
         this.cd.detectChanges();
+        this.logger.info('Pin colocado', { lat: this.latitude, lng: this.longitude });
       });
     });
   }
