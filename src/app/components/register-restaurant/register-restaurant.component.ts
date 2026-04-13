@@ -52,7 +52,7 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
     private router:  Router,
     private logger:  LoggerService,
     private ngZone:  NgZone,
-    private cd:      ChangeDetectorRef  
+    private cd:      ChangeDetectorRef
   ) {}
 
   ngAfterViewInit(): void {
@@ -108,12 +108,12 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
               const pos      = ev.target.getLatLng();
               this.latitude  = pos.lat;
               this.longitude = pos.lng;
-              this.cd.detectChanges();  
+              this.cd.detectChanges();
             });
           });
         }
 
-        this.cd.detectChanges(); 
+        this.cd.detectChanges();
         this.logger.info('Pin colocado', { lat: this.latitude, lng: this.longitude });
       });
     });
@@ -136,12 +136,12 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
       this.errorImage = 'La imagen no puede superar los 5MB';
       return;
     }
-    this.imageFile   = file;
-    this.errorImage  = '';
-    const reader     = new FileReader();
-    reader.onload    = e => {
+    this.imageFile  = file;
+    this.errorImage = '';
+    const reader    = new FileReader();
+    reader.onload   = e => {
       this.imagePreview = e.target?.result as string;
-      this.cd.detectChanges(); 
+      this.cd.detectChanges();
     };
     reader.readAsDataURL(file);
   }
@@ -196,6 +196,13 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
       lat: this.latitude, lng: this.longitude,
     });
 
+    // Guardar datos del restaurante para el panel
+    if (this.imagePreview) {
+      localStorage.setItem('restaurant_image', this.imagePreview);
+    }
+    localStorage.setItem('restaurant_name',     this.name);
+    localStorage.setItem('restaurant_category', this.category);
+
     this.router.navigate(['/payment']);
   }
 
@@ -204,8 +211,8 @@ export class RegisterRestaurantComponent implements AfterViewInit, OnDestroy {
   }
 
   formatCoord(val: number | null): string {
-  if (val === null) return '— no definida —';
-  return val.toFixed(6);
+    if (val === null) return '— no definida —';
+    return val.toFixed(6);
   }
 
   private clearErrors(): void {
