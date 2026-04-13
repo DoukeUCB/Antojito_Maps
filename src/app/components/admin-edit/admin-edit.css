@@ -12,19 +12,21 @@
   min-height: 100vh;
 }
 
+/* CARD */
 .card {
   background: var(--color-white);
-  padding: 2rem;
+  padding: 2rem 2.5rem;
   border-radius: 20px;
-  width: 420px;
+  width: 480px; /* + ancho */
   box-shadow: 0 8px 32px rgba(2,51,45,0.1);
 }
 
+/* HEADER */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .header h2 {
@@ -33,56 +35,84 @@
   margin: 0;
 }
 
+/* BOTÓN AGREGAR */
 .btn-add {
   background: var(--color-secondary);
   color: var(--color-white);
   border: none;
-  padding: 8px 14px;
+  padding: 6px 12px; /* más compacto */
   border-radius: 10px;
   cursor: pointer;
   font-weight: 600;
+  transition: all 0.2s ease;
 }
 
 .btn-add:hover {
   background: #011f1b;
+  transform: translateY(-1px);
 }
 
+/* LISTA */
 .list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px; /* más espacio */
 }
 
+/* ITEM */
 .item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px;
-  border: 1px solid rgba(2,51,45,0.1);
-  border-radius: 10px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(2,51,45,0.03); /* fondo leve */
+  transition: all 0.2s ease;
 }
 
+/* HOVER fila */
+.item:hover {
+  background: rgba(191,152,97,0.08);
+  transform: translateY(-1px);
+}
+
+/* NOMBRE */
 .name {
   color: var(--color-secondary);
-  font-weight: 600;
+  font-weight: 600; /* semibold */
+  font-size: 14px;
 }
 
+/* ACCIONES */
 .actions {
   display: flex;
-  gap: 8px;
+  gap: 12px; /* más separación */
 }
 
+/* ICONOS */
 .btn-icon {
   border: none;
   background: transparent;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px; /* más grande */
+  transition: all 0.2s ease;
 }
 
+/* EDIT */
 .btn-icon.edit:hover {
   color: var(--color-accent);
+  transform: scale(1.15);
 }
 
+/* DELETE */
 .btn-icon.delete:hover {
   color: var(--color-primary);
+  transform: scale(1.15);
+}
+
+/* FOCUS accesibilidad */
+.btn-icon:focus,
+.btn-add:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
