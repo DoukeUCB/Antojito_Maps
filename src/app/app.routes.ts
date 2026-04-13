@@ -42,7 +42,7 @@ export const routes: Routes = [
     component: MapPage
   },
   { 
-    path: 'restaurant-view', 
+    path: 'restaurant-view/:uuid', 
     component: RestaurantView 
   }, 
   {
