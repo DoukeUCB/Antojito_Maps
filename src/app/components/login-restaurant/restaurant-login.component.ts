@@ -19,7 +19,7 @@ export class RestaurantLoginComponent {
   password: string = '';
 
   constructor(
-    private router: Router,
+    public router: Router,
     private logger: LoggerService
   ) {}
 
