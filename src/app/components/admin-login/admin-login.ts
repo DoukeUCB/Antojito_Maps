@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoggerService } from '../../core/services/logger.service';
 
 @Component({
   selector: 'app-admin-login',
@@ -14,13 +15,38 @@ export class AdminLogin {
 
   correo: string = '';
   password: string = '';
+  showPassword = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private logger: LoggerService
+  ) {}
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+
+    this.logger.info('Toggle password visibility (admin)', {
+      visible: this.showPassword
+    });
+  }
 
   login(form: NgForm) {
     if (form.invalid) return;
 
-    // navegación temporal
-    this.router.navigate(['/restaurant']);
+    this.logger.info('Intento de login admin', {
+      correo: this.correo
+    });
+
+    const success = true;
+
+    if (success) {
+      this.logger.info('Login admin exitoso', {
+        correo: this.correo
+      });
+
+      this.router.navigate(['/restaurant']); // luego cambiarás a panel admin
+    } else {
+      this.logger.error('Login admin fallido');
+    }
   }
 }
