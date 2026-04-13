@@ -1,1 +1,46 @@
-<p>admin-login works!</p>
+<div class="wrapper">
+
+  <h2>Administrador</h2>
+
+  <form #form="ngForm">
+
+    <div>
+      <label>Correo</label>
+      <input 
+        type="email"
+        name="correo"
+        [(ngModel)]="correo"
+        required
+        email
+      />
+    </div>
+
+    <div *ngIf="form.submitted && !correo">
+      El correo no puede estar vacío
+    </div>
+
+    <div *ngIf="correo && !correo.includes('@')">
+      El correo debe contener "@"
+    </div>
+
+    <div>
+      <label>Contraseña</label>
+      <input 
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        required
+      />
+    </div>
+
+    <div *ngIf="form.submitted && !password">
+      La contraseña no puede estar vacía
+    </div>
+
+    <button type="button" (click)="login(form)">
+      Log In
+    </button>
+
+  </form>
+
+</div>

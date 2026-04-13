@@ -28,9 +28,17 @@ export class PaginaPrincipalComponent {
 
   selectRole(role: string): void {
     switch (role) {
-      case 'usuario':      this.router.navigate(['/mapa']);  break;
-      case 'restaurante':  this.router.navigate(['/restaurant/login']); break;
-      case 'administrador':this.router.navigate(['/admin']); break;
+      case 'usuario':
+        this.router.navigate(['/mapa']);
+        break;
+
+      case 'restaurante':
+        this.router.navigate(['/restaurant/login']);
+        break;
+
+      case 'administrador':
+        this.router.navigate(['/admin/login']); // 🔥 CAMBIO CLAVE
+        break;
     }
   }
 
