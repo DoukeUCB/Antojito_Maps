@@ -2,6 +2,23 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface CreateRestaurantRequest {
+  ownerMail: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+  planSuscription: string;
+  planExpirationDate: string;
+  isBlocked: boolean;
+  description: string;
+  imagenUrl: string;
+  category: string;
+}
+
+export interface UploadImageResponse {
+  imageUrl: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,8 +44,15 @@ export class RestauranteService {
   }
 
   // POST /restaurant/create
-  crearRestaurante(datos: any): Observable<any> {
+  crearRestaurante(datos: CreateRestaurantRequest): Observable<any> {
     return this.http.post<any>(`${this.BASE_URL}/restaurant/create`, datos);
+  }
+
+  // POST /restaurant/upload-image
+  subirImagen(file: File): Observable<UploadImageResponse> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http.post<UploadImageResponse>(`${this.BASE_URL}/restaurant/upload-image`, formData);
   }
 
   // POST /restaurant/login
