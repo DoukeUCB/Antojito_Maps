@@ -55,5 +55,31 @@
     "SUBMIT_BTN": "Iniciar sesión",
     "DIVIDER": "¿No tienes cuenta?",
     "REGISTER_BTN": "Registrar mi restaurante"
+  },
+  "MAP": {
+    "SEARCH_PLACEHOLDER": "Buscar restaurante...",
+    "LOADING": "Cargando restaurantes...",
+    "ERROR_API": "No se pudieron cargar los restaurantes.",
+    "RETRY": "Reintentar",
+    "WELCOME_TITLE": "¡Bienvenido!",
+    "WELCOME_SUB": "Explora los mejores sabores de Cochabamba en un solo mapa.",
+    "WELCOME_HINT": "Haz clic en los marcadores para ver el menú y promociones.",
+    "EMPTY_TITLE": "Sin resultados en \"{{ category }}\"",
+    "EMPTY_SUB": "Aún no hay restaurantes registrados en esta categoría. ¡Explora las otras opciones disponibles!",
+    "VIEW_ALL": "Ver todas las categorías",
+    "NO_DESC": "Sin descripción disponible",
+    "BACK_TOOLTIP": "Volver al inicio",
+    "LOC_TOOLTIP": "Mi ubicación"
+  },
+  "CATEGORIES": {
+    "ALL": "Todas",
+    "SALTEÑAS": "Salteñas",
+    "CHICHARRON": "Chicharrón",
+    "SUSHI": "Sushi",
+    "TYPICAL": "Comida Típica",
+    "PIZZA": "Pizzería",
+    "BURGERS": "Hamburguesas",
+    "TACOS": "Tacos",
+    "GRILL": "Parrilla"
   }
 }

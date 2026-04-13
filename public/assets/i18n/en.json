@@ -55,5 +55,31 @@
     "SUBMIT_BTN": "Login",
     "DIVIDER": "Don't have an account?",
     "REGISTER_BTN": "Register my restaurant"
+  },
+  "MAP": {
+    "SEARCH_PLACEHOLDER": "Search restaurant...",
+    "LOADING": "Loading restaurants...",
+    "ERROR_API": "Could not load restaurants.",
+    "RETRY": "Retry",
+    "WELCOME_TITLE": "Welcome!",
+    "WELCOME_SUB": "Explore the best flavors of Cochabamba in a single map.",
+    "WELCOME_HINT": "Click on the markers to see the menu and promotions.",
+    "EMPTY_TITLE": "No results in \"{{ category }}\"",
+    "EMPTY_SUB": "There are no restaurants registered in this category yet. Explore other available options!",
+    "VIEW_ALL": "View all categories",
+    "NO_DESC": "No description available",
+    "BACK_TOOLTIP": "Back to home",
+    "LOC_TOOLTIP": "My location"
+  },
+  "CATEGORIES": {
+    "ALL": "All",
+    "SALTEÑAS": "Salteñas",
+    "CHICHARRON": "Chicharrón",
+    "SUSHI": "Sushi",
+    "TYPICAL": "Typical Food",
+    "PIZZA": "Pizza",
+    "BURGERS": "Burgers",
+    "TACOS": "Tacos",
+    "GRILL": "Grill"
   }
 }

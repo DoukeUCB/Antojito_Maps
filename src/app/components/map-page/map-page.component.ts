@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestauranteService } from '../../core/services/restaurante.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import * as L from 'leaflet';
 
 @Component({
   selector: 'app-map-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './map-page.html',
   styleUrls: ['./map-page.css']
 })
@@ -18,33 +19,35 @@ export class MapPage implements OnInit, AfterViewInit {
   private markersLayer = L.layerGroup();
   private locationMarker?: L.Marker;
 
+  // Usamos las llaves del JSON para las etiquetas
   categorias = [
-    { label: 'Todas',         slug: '' },
-    { label: 'Salteñas',      slug: 'Salteñas' },
-    { label: 'Chicharrón',    slug: 'Chicharron' },
-    { label: 'Sushi',         slug: 'Sushi' },
-    { label: 'Comida Típica', slug: 'Comida Tipica' },
-    { label: 'Pizzería',      slug: 'Pizzeria' },
-    { label: 'Hamburguesas',  slug: 'Hamburguesas' },
-    { label: 'Tacos',         slug: 'Tacos' },
-    { label: 'Parrilla',      slug: 'Parrilla' },
+    { label: 'CATEGORIES.ALL',      slug: '' },
+    { label: 'CATEGORIES.SALTEÑAS', slug: 'Salteñas' },
+    { label: 'CATEGORIES.CHICHARRON', slug: 'Chicharron' },
+    { label: 'CATEGORIES.SUSHI',    slug: 'Sushi' },
+    { label: 'CATEGORIES.TYPICAL',  slug: 'Comida Tipica' },
+    { label: 'CATEGORIES.PIZZA',    slug: 'Pizzeria' },
+    { label: 'CATEGORIES.BURGERS',  slug: 'Hamburguesas' },
+    { label: 'CATEGORIES.TACOS',    slug: 'Tacos' },
+    { label: 'CATEGORIES.GRILL',    slug: 'Parrilla' },
   ];
 
   categoriaSeleccionada: string = '';
-  textoBusqueda:         string = '';
-  mostrarBienvenida:     boolean = true;
-  sinResultados:         boolean = false;
+  textoBusqueda: string = '';
+  mostrarBienvenida: boolean = true;
+  sinResultados: boolean = false;
   categoriaSinResultados: string = '';
-  cargando:              boolean = false;
-  errorApi:              boolean = false;
+  cargando: boolean = false;
+  errorApi: boolean = false;
 
   private restaurantes: any[] = [];
 
   constructor(
-    private route:              ActivatedRoute,
-    private router:             Router,
-    private ngZone:             NgZone,
-    private restauranteService: RestauranteService
+    private route: ActivatedRoute,
+    public router: Router,
+    private ngZone: NgZone,
+    private restauranteService: RestauranteService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +65,6 @@ export class MapPage implements OnInit, AfterViewInit {
     this.cargarRestaurantes();
   }
 
-  // ── Inicializar mapa ─────────────────────────
   private initMap(): void {
     this.map = L.map('map', {
       center: [-17.3935, -66.1568],
@@ -77,7 +79,6 @@ export class MapPage implements OnInit, AfterViewInit {
     this.markersLayer.addTo(this.map);
   }
 
-  // ── Geolocalización ──────────────────────────
   private obtenerUbicacion(): void {
     if (!navigator.geolocation) return;
 
@@ -88,185 +89,100 @@ export class MapPage implements OnInit, AfterViewInit {
 
         const iconoUbicacion = L.divIcon({
           className: 'user-location-marker',
-          html: `
-            <div class="user-pulse-ring"></div>
-            <div class="user-dot"></div>
-          `,
-          iconSize:   [20, 20],
+          html: `<div class="user-pulse-ring"></div><div class="user-dot"></div>`,
+          iconSize: [20, 20],
           iconAnchor: [10, 10]
         });
 
         if (this.locationMarker) {
           this.locationMarker.setLatLng([lat, lng]);
         } else {
-          this.locationMarker = L.marker([lat, lng], { icon: iconoUbicacion })
-            .addTo(this.map);
+          this.locationMarker = L.marker([lat, lng], { icon: iconoUbicacion }).addTo(this.map);
         }
-
         this.map.setView([lat, lng], 15);
       },
-      (err) => {
-        console.warn('Geolocalización denegada:', err.message);
-      },
+      (err) => console.warn('Geolocalización denegada:', err.message),
       { enableHighAccuracy: true, timeout: 8000 }
     );
   }
 
-  // ── Cargar desde backend ─────────────────────
   cargarRestaurantes(): void {
     this.cargando = true;
     this.errorApi = false;
 
-    const timeoutId = setTimeout(() => {
-      if (this.cargando) {
-        this.cargando = false;
-        this.errorApi = true;
-      }
-    }, 8000);
-
     this.restauranteService.getRestaurantes().subscribe({
       next: (data: any) => {
-        clearTimeout(timeoutId);
-
-        if (Array.isArray(data)) {
-          this.restaurantes = data;
-        } else if (data?.data && Array.isArray(data.data)) {
-          this.restaurantes = data.data;
-        } else if (data?.restaurantes && Array.isArray(data.restaurantes)) {
-          this.restaurantes = data.restaurantes;
-        } else if (data?.content && Array.isArray(data.content)) {
-          this.restaurantes = data.content;
-        } else {
-          this.restaurantes = [];
-        }
+        if (Array.isArray(data)) this.restaurantes = data;
+        else if (data?.data) this.restaurantes = data.data;
+        else this.restaurantes = [];
 
         this.cargando = false;
         this.filtrarRestaurantes();
       },
       error: (err) => {
-        clearTimeout(timeoutId);
-        console.error('Error cargando restaurantes:', err);
+        console.error('Error:', err);
         this.cargando = false;
         this.errorApi = true;
       }
     });
   }
 
-  // ── Filtrar y pintar marcadores ──────────────
   filtrarRestaurantes(): void {
     this.markersLayer.clearLayers();
 
     const filtrados = this.restaurantes.filter(r => {
-      const matchCat = !this.categoriaSeleccionada ||
-        (r.category ?? r.categoria ?? '')
-          .toLowerCase() === this.categoriaSeleccionada.toLowerCase();
-
-      const nombre = r.name ?? r.nombre ?? '';
-      const matchBusqueda = !this.textoBusqueda ||
-        nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase());
-
+      const rCat = (r.category ?? r.categoria ?? '').toLowerCase();
+      const matchCat = !this.categoriaSeleccionada || rCat === this.categoriaSeleccionada.toLowerCase();
+      const nombre = (r.name ?? r.nombre ?? '').toLowerCase();
+      const matchBusqueda = !this.textoBusqueda || nombre.includes(this.textoBusqueda.toLowerCase());
       return matchCat && matchBusqueda;
     });
 
-    const catLabel = this.categorias.find(c =>
-      c.slug.toLowerCase() === this.categoriaSeleccionada.toLowerCase()
-    )?.label || this.categoriaSeleccionada;
-
-    this.sinResultados    = filtrados.length === 0 && !!this.categoriaSeleccionada;
-    this.categoriaSinResultados = catLabel;
+    // Actualizar estados de UI
+    const currentCat = this.categorias.find(c => c.slug.toLowerCase() === this.categoriaSeleccionada.toLowerCase());
+    this.categoriaSinResultados = currentCat ? currentCat.label : this.categoriaSeleccionada;
+    this.sinResultados = filtrados.length === 0 && !!this.categoriaSeleccionada;
     this.mostrarBienvenida = filtrados.length === 0 && !this.categoriaSeleccionada;
 
     filtrados.forEach(r => {
-      const lat = r.latitude  ?? r.lat ?? r.latitud;
+      const lat = r.latitude ?? r.lat ?? r.latitud;
       const lng = r.longitude ?? r.lng ?? r.longitud;
       if (!lat || !lng) return;
 
-      // ── Icono del pin ──────────────────────
       const icono = L.divIcon({
         className: 'custom-restaurant-marker',
         html: `<div class="marker-pin"><div class="marker-inner"></div></div>`,
-        iconSize:   [28, 36],
+        iconSize: [28, 36],
         iconAnchor: [14, 36]
       });
 
-      // ── Datos del restaurante ──────────────
-      const nombre      = r.name        ?? r.nombre      ?? 'Restaurante';
-      const descripcion = r.description ?? r.descripcion ?? '';
-      const imagen      = r.image_url   ?? r.imageUrl    ?? '';
-      const categoria   = r.category    ?? r.categoria   ?? '';
-      const uuid        = r.id          ?? r.uuid         ?? '';
+      // Traducciones para el Popup
+      const noDesc = this.translate.instant('MAP.NO_DESC');
+      const nombre = r.name ?? r.nombre ?? 'Restaurante';
+      const descripcion = r.description ?? r.descripcion ?? noDesc;
+      const categoria = r.category ?? r.categoria ?? '';
+      const imagen = r.image_url ?? r.imageUrl ?? '';
 
-      // ── Imagen del popup ───────────────────
-      const imagenHtml = imagen
-        ? `<img
-             src="${imagen}"
-             alt="${nombre}"
-             style="width:100%;height:110px;object-fit:cover;
-                    border-radius:10px 10px 0 0;display:block;"
-             onerror="this.style.display='none'">`
-        : `<div style="width:100%;height:70px;background:#f0ebe3;
-                       border-radius:10px 10px 0 0;display:flex;
-                       align-items:center;justify-content:center;font-size:32px;">
-             🍽️
-           </div>`;
+      const imagenHtml = imagen 
+        ? `<img src="${imagen}" style="width:100%;height:110px;object-fit:cover;border-radius:10px 10px 0 0;display:block;">`
+        : `<div style="width:100%;height:70px;background:#f0ebe3;border-radius:10px 10px 0 0;display:flex;align-items:center;justify-content:center;font-size:32px;">🍽️</div>`;
 
-      // ── Contenido del popup ────────────────
       const popupHtml = `
-        <div style="
-          font-family:'Inter',sans-serif;
-          width:210px;
-          border-radius:10px;
-          overflow:hidden;
-          margin:-14px -20px -14px;
-        ">
+        <div style="font-family:'Inter',sans-serif; width:210px; border-radius:10px; overflow:hidden; margin:-14px -20px -14px;">
           ${imagenHtml}
           <div style="padding:12px 14px 14px;">
-            <span style="
-              font-size:10px;font-weight:700;
-              color:#BF9861;text-transform:uppercase;
-              letter-spacing:0.8px;">
-              ${categoria}
-            </span>
-            <p style="
-              margin:5px 0 5px;font-size:14px;
-              font-weight:700;color:#02332D;line-height:1.2;">
-              ${nombre}
-            </p>
-            <p style="
-              margin:0 0 12px;font-size:12px;
-              color:#666;line-height:1.4;">
-              ${descripcion || 'Sin descripción disponible'}
-            </p>
+            <span style="font-size:10px;font-weight:700; color:#BF9861;text-transform:uppercase; letter-spacing:0.8px;">${categoria}</span>
+            <p style="margin:5px 0 5px;font-size:14px; font-weight:700;color:#02332D;line-height:1.2;">${nombre}</p>
+            <p style="margin:0 0 12px;font-size:12px; color:#666;line-height:1.4;">${descripcion}</p>
           </div>
         </div>
       `;
 
-      const marker = L.marker([lat, lng], { icon: icono });
-
-      marker.bindPopup(popupHtml, {
-        maxWidth:  230,
-        className: 'custom-popup'
-      });
-
-      // Botón popup
-      marker.on('popupopen', () => {
-        setTimeout(() => {
-          const btn = document.getElementById(`btn-ver-${uuid}`);
-          if (btn) {
-            btn.addEventListener('click', () => {
-              this.ngZone.run(() => {
-                this.router.navigate(['/restaurant-view', uuid]);
-              });
-            });
-          }
-        }, 50);
-      });
-
+      const marker = L.marker([lat, lng], { icon: icono }).bindPopup(popupHtml, { maxWidth: 230, className: 'custom-popup' });
       this.markersLayer.addLayer(marker);
     });
   }
 
-  // ── Acciones del header ──────────────────────
   buscarRestaurante(texto: string): void {
     this.textoBusqueda = texto;
     this.filtrarRestaurantes();
@@ -274,22 +190,11 @@ export class MapPage implements OnInit, AfterViewInit {
 
   seleccionarCategoria(slug: string): void {
     this.categoriaSeleccionada = slug;
-    this.router.navigate([], {
-      queryParams:       { categoria: slug || null },
-      queryParamsHandling: 'merge'
-    });
+    this.router.navigate([], { queryParams: { categoria: slug || null }, queryParamsHandling: 'merge' });
     this.filtrarRestaurantes();
   }
 
-  verTodasLasCategorias(): void {
-    this.seleccionarCategoria('');
-  }
-
-  volverAlInicio(): void {
-    this.router.navigate(['/inicio']);
-  }
-
-  centrarEnMiUbicacion(): void {
-    this.obtenerUbicacion();
-  }
+  verTodasLasCategorias(): void { this.seleccionarCategoria(''); }
+  volverAlInicio(): void { this.router.navigate(['/inicio']); }
+  centrarEnMiUbicacion(): void { this.obtenerUbicacion(); }
 }
