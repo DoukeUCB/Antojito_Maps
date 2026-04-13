@@ -192,7 +192,7 @@ export class MapPage implements OnInit, AfterViewInit {
       // ── Datos del restaurante ──────────────
       const nombre      = r.name        ?? r.nombre      ?? 'Restaurante';
       const descripcion = r.description ?? r.descripcion ?? '';
-      const imagen      = r.image_url   ?? r.imageUrl    ?? '';
+      const imagen = r.imagenUrl ?? r.image_url ?? r.imageUrl ?? '';
       const categoria   = r.category    ?? r.categoria   ?? '';
       const uuid        = r.id          ?? r.uuid         ?? '';
 
