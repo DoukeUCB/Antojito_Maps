@@ -7,26 +7,26 @@
       <line x1="19" y1="12" x2="5" y2="12"></line>
       <polyline points="12 19 5 12 12 5"></polyline>
     </svg>
-    Volver
+    {{ 'LOGIN.BACK_BTN' | translate }}
   </button>
 
   <div class="login-side-panel">
     <div class="side-content">
       <div class="side-logo">Antojitos<span>Maps</span></div>
-      <h2 class="side-title">Gestiona tu restaurante desde un solo lugar</h2>
-      <p class="side-sub">Publica promociones, actualiza tu información y llega a más caseritos en Cochabamba.</p>
+      <h2 class="side-title">{{ 'LOGIN.SIDE_TITLE' | translate }}</h2>
+      <p class="side-sub">{{ 'LOGIN.SIDE_SUB' | translate }}</p>
       <div class="side-features">
         <div class="feature-item">
           <span class="feature-dot"></span>
-          Crea y edita promociones
+          {{ 'LOGIN.FEATURE_1' | translate }}
         </div>
         <div class="feature-item">
           <span class="feature-dot"></span>
-          Aparece en el mapa de la ciudad
+          {{ 'LOGIN.FEATURE_2' | translate }}
         </div>
         <div class="feature-item">
           <span class="feature-dot"></span>
-          Gestiona tu información comercial
+          {{ 'LOGIN.FEATURE_3' | translate }}
         </div>
       </div>
     </div>
@@ -36,30 +36,14 @@
     <div class="form-card">
 
       <div class="form-header">
-        <div class="form-icon">🏪</div>
-        <h1 class="form-title">Acceso a Restaurantes</h1>
-        <p class="form-subtitle">Ingresa con tu cuenta de owner</p>
+        <h1 class="form-title">{{ 'LOGIN.FORM_TITLE' | translate }}</h1>
+        <p class="form-subtitle">{{ 'LOGIN.FORM_SUBTITLE' | translate }}</p>
       </div>
 
       <div class="form-body">
 
-        <!-- Error general -->
-        @if (errorMsg) {
-          <div class="form-error-banner">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="8" x2="12" y2="12"></line>
-              <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            {{ errorMsg }}
-          </div>
-        }
-
-        <!-- Email -->
         <div class="field-group">
-          <label class="field-label" for="email">Correo electrónico</label>
+          <label class="field-label" for="email">{{ 'LOGIN.LABEL_EMAIL' | translate }}</label>
           <div class="field-input-wrap">
             <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2"
@@ -78,9 +62,8 @@
           </div>
         </div>
 
-        <!-- Contraseña -->
         <div class="field-group">
-          <label class="field-label" for="password">Contraseña</label>
+          <label class="field-label" for="password">{{ 'LOGIN.LABEL_PASS' | translate }}</label>
           <div class="field-input-wrap">
             <svg class="field-icon" width="16" height="16" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2"
@@ -93,7 +76,7 @@
               id="password"
               name="password"
               [(ngModel)]="password"
-              placeholder="Tu contraseña"
+              [placeholder]="'LOGIN.PLACEHOLDER_PASS' | translate"
               class="field-input"
               autocomplete="current-password">
             <button type="button" class="toggle-pwd" (click)="togglePasswordVisibility()">
@@ -113,24 +96,16 @@
           </div>
         </div>
 
-        <!-- Botón login -->
-        <button type="button" class="btn-login"
-          [disabled]="cargando"
-          (click)="login()">
-          @if (cargando) {
-            <span class="btn-spinner"></span>
-            Iniciando sesión...
-          } @else {
-            Iniciar sesión
-          }
+        <button type="button" class="btn-login" (click)="login()">
+          {{ 'LOGIN.SUBMIT_BTN' | translate }}
         </button>
 
         <div class="form-divider">
-          <span>¿No tienes cuenta?</span>
+          <span>{{ 'LOGIN.DIVIDER' | translate }}</span>
         </div>
 
         <button type="button" class="btn-register" (click)="goToRegister()">
-          Registrar mi restaurante
+          {{ 'LOGIN.REGISTER_BTN' | translate }}
         </button>
 
       </div>

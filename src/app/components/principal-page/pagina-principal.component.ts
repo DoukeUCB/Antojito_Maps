@@ -1,18 +1,20 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core'; 
+import { LanguageSwitchComponent } from '../language-switch/language-switch.component';
 
 @Component({
   selector: 'app-pagina-principal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LanguageSwitchComponent, TranslateModule], 
   templateUrl: './pagina-principal.component.html',
   styleUrls: ['./pagina-principal.component.css']
 })
 export class PaginaPrincipalComponent {
 
   categorias = [
-    { emoji: '🥟', nombre: 'Salteñas',        categoria: 'Típico boliviano', bg: 'bg1', slug: 'Salteñas' },
+    { emoji: '🥟', nombre: 'Salteñas',          categoria: 'Típico boliviano', bg: 'bg1', slug: 'Salteñas' },
     { emoji: '🍖', nombre: 'Chicharrón',       categoria: 'Cocina boliviana', bg: 'bg2', slug: 'Chicharron' },
     { emoji: '🍔', nombre: 'Hamburguesas',     categoria: 'Fast food',        bg: 'bg3', slug: 'Hamburguesas' },
     { emoji: '🍣', nombre: 'Sushi',            categoria: 'Japonesa',         bg: 'bg4', slug: 'Sushi' },
@@ -24,7 +26,10 @@ export class PaginaPrincipalComponent {
     { emoji: '☕', nombre: 'Cafeterías',       categoria: 'Desayunos',        bg: 'bg8', slug: 'Cafeterias' },
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private translate: TranslateService) {
+    const savedLang = localStorage.getItem('userLang') || 'es';
+    this.translate.use(savedLang);
+  }
 
   selectRole(role: string): void {
     switch (role) {
@@ -42,6 +47,10 @@ export class PaginaPrincipalComponent {
 
       case 'registroRestaurante':
         this.router.navigate(['/restaurant/register']);
+        break;
+        
+      default:
+        this.router.navigate(['/mapa']);
         break;
     }
   }

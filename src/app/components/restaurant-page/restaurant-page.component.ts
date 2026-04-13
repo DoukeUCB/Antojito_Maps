@@ -2,12 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { RestauranteService } from '../../core/services/restaurante.service';
 
 @Component({
   selector: 'app-restaurant-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './restaurant-page.html',
   styleUrl: './restaurant-page.css',
 })
@@ -39,7 +40,7 @@ export class RestaurantPage implements OnInit, OnDestroy {
   ultimoItemEliminado: any = null;
   tipoItemEliminado: 'promo' | 'menu' | null = null;
 
-  private timerUndo:            any;
+  private timerUndo:           any;
   private timerCheckExpiracion: any;
 
   constructor(
@@ -51,26 +52,19 @@ export class RestaurantPage implements OnInit, OnDestroy {
     const uuid = localStorage.getItem('restaurant_uuid');
 
     if (uuid) {
-      // Si hay uuid, cargar datos reales desde la API
       this.restauranteService.getRestauranteById(uuid).subscribe({
         next: (data: any) => {
           this.restaurantName     = data.name      ?? localStorage.getItem('restaurant_name')     ?? 'Mi Restaurante';
           this.restaurantCategory = data.category  ?? localStorage.getItem('restaurant_category') ?? '';
           this.restaurantImage    = data.imagenUrl ?? data.image_url ?? localStorage.getItem('restaurant_image');
         },
-        error: () => {
-          // Fallback a localStorage si la API falla
-          this.cargarDesdeLocalStorage();
-        }
+        error: () => this.cargarDesdeLocalStorage()
       });
     } else {
-      // Sin uuid, usar localStorage (registro reciente o desarrollo)
       this.cargarDesdeLocalStorage();
     }
 
-    this.timerCheckExpiracion = setInterval(() => {
-      this.verificarExpiracion();
-    }, 10000);
+    this.timerCheckExpiracion = setInterval(() => this.verificarExpiracion(), 10000);
   }
 
   private cargarDesdeLocalStorage() {
@@ -81,7 +75,7 @@ export class RestaurantPage implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.timerCheckExpiracion) clearInterval(this.timerCheckExpiracion);
-    if (this.timerUndo)            clearTimeout(this.timerUndo);
+    if (this.timerUndo)           clearTimeout(this.timerUndo);
   }
 
   verificarExpiracion() {
@@ -125,6 +119,7 @@ export class RestaurantPage implements OnInit, OnDestroy {
     } else {
       const index = this.menu.findIndex(m => m.id === this.itemTemporal.id);
       if (index !== -1) this.menu[index] = { ...this.itemTemporal };
+      else              this.menu.push({ ...this.itemTemporal, id: Date.now() });
     }
     this.cerrarModal();
   }
@@ -162,11 +157,7 @@ export class RestaurantPage implements OnInit, OnDestroy {
   }
 
   cerrarSesion() {
-    localStorage.removeItem('restaurant_uuid');
-    localStorage.removeItem('restaurant_image');
-    localStorage.removeItem('restaurant_name');
-    localStorage.removeItem('restaurant_category');
-    localStorage.removeItem('restaurant_email');
+    localStorage.clear(); // Limpia todo para seguridad
     this.router.navigate(['/restaurant/login']);
   }
 }

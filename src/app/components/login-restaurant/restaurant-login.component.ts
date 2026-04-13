@@ -2,20 +2,21 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoggerService } from '../../core/services/logger.service';
+import { LoggerService} from '../../core/services/logger.service';
+import { TranslateModule } from '@ngx-translate/core'; // IMPORTANTE
 import { RestauranteService } from '../../core/services/restaurante.service';
 
 @Component({
   selector: 'app-restaurant-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule], // AGREGADO AQUÍ
   templateUrl: './restaurant-login.component.html',
   styleUrls: ['./restaurant-login.component.css'],
 })
 export class RestaurantLoginComponent {
 
   showPassword = false;
-  email:    string = '';
+  email: string = '';
   password: string = '';
   errorMsg: string = '';
   cargando: boolean = false;
@@ -28,14 +29,22 @@ export class RestaurantLoginComponent {
 
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
+    this.logger.info('Toggle password visibility', {
+      visible: this.showPassword
+    });
   }
 
   login() {
-    this.errorMsg = '';
+    this.logger.info('Intento de login');
+    const success = true; 
 
-    if (!this.email || !this.password) {
-      this.errorMsg = 'Completa todos los campos';
-      return;
+    if (success) {
+      this.logger.info('Login exitoso', {
+        email: this.email
+      });
+      this.router.navigate(['/restaurant']);
+    } else {
+      this.logger.error('Login fallido');
     }
 
     this.cargando = true;
@@ -71,6 +80,7 @@ export class RestaurantLoginComponent {
   }
 
   goToRegister() {
+    this.logger.info('Navegación a registro de restaurante');
     this.router.navigate(['/restaurant/register']);
   }
 }
