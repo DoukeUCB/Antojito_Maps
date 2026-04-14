@@ -67,6 +67,10 @@
           <div *ngIf="correo && !correo.includes('@')" class="error">
             {{ 'ADMIN_LOGIN.ERR_EMAIL_INVALID' | translate }}
           </div>
+
+          <div *ngIf="fieldErrors['mail']" class="error">
+            {{ fieldErrors['mail'] }}
+          </div>
         </div>
 
         <div class="field-group">
@@ -92,9 +96,13 @@
           <div *ngIf="form.submitted && !password" class="error">
             {{ 'ADMIN_LOGIN.ERR_PASS_EMPTY' | translate }}
           </div>
+
+          <div *ngIf="fieldErrors['password']" class="error">
+            {{ fieldErrors['password'] }}
+          </div>
         </div>
 
-        <button type="button" class="btn-login" (click)="login(form)">
+        <button type="button" class="btn-login" (click)="login(form)" [disabled]="cargando">
           <span *ngIf="!cargando">{{ 'ADMIN_LOGIN.BTN_LOGIN' | translate }}</span>
           <span *ngIf="cargando">{{ 'ADMIN_LOGIN.BTN_LOADING' | translate }}</span>
         </button>

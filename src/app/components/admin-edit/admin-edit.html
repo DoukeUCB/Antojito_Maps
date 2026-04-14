@@ -3,23 +3,25 @@
   <div class="card">
 
     <div class="header">
-      <h2>Administradores</h2>
-      <button class="btn-add" (click)="irCrear()">+ Agregar</button>
+      <h2>Editar mi cuenta</h2>
+      <button class="btn-back" (click)="volver()">Volver</button>
     </div>
 
-    <div class="list">
-
-      <div class="item" *ngFor="let admin of admins">
-
-        <span class="name">{{ admin.nombre }}</span>
-
-        <div class="actions">
-          <button class="btn-icon edit" (click)="editar(admin)">✏️</button>
-          <button class="btn-icon delete" (click)="eliminar(admin)">🗑️</button>
-        </div>
-
+    <div class="edit-self">
+      <h3>Actualizar correo y contraseña</h3>
+      <div class="field-group">
+        <input [(ngModel)]="editMail" placeholder="Correo admin">
+        <div class="error" *ngIf="fieldErrors['mail']">{{ fieldErrors['mail'] }}</div>
       </div>
-
+      <div class="field-group">
+        <input [(ngModel)]="editPassword" type="password" placeholder="Nueva contraseña">
+        <div class="error" *ngIf="fieldErrors['password']">{{ fieldErrors['password'] }}</div>
+      </div>
+      <button class="btn-save" (click)="guardarEdicionPropia()" [disabled]="guardando">
+        {{ guardando ? 'Guardando...' : 'Guardar cambios' }}
+      </button>
+      <div class="error" *ngIf="errorMsg">{{ errorMsg }}</div>
+      <div class="ok" *ngIf="successMsg">{{ successMsg }}</div>
     </div>
 
   </div>
