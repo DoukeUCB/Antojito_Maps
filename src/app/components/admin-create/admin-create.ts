@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoggerService } from '../../core/services/logger.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-admin-create',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './admin-create.html',
   styleUrl: './admin-create.css'
 })
@@ -22,21 +23,26 @@ export class AdminCreate {
 
   constructor(
     private router: Router,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {}
 
   agregar() {
-
     this.clearErrors();
     let valid = true;
 
-    if (!this.correo.trim() || !this.correo.includes('@')) {
-      this.errorCorreo = 'Correo inválido';
+    if (!this.nombre.trim()) {
+      this.errorNombre = this.translate.instant('ADMIN_CREATE.ERR_NAME');
       valid = false;
     }
 
-    if (!this.password.trim()) {
-      this.errorPassword = 'Contraseña requerida';
+    if (!this.correo.includes('@')) {
+      this.errorCorreo = this.translate.instant('ADMIN_CREATE.ERR_EMAIL');
+      valid = false;
+    }
+
+    if (!this.funciones.trim()) {
+      this.errorFunciones = this.translate.instant('ADMIN_CREATE.ERR_FUNCTIONS');
       valid = false;
     }
 

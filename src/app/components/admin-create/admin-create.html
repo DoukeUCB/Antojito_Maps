@@ -2,31 +2,40 @@
 
   <div class="form-card">
 
-    <h2 class="title">Agregar Administrador</h2>
+    <h2 class="title">{{ 'ADMIN_CREATE.TITLE' | translate }}</h2>
 
-    <!-- CORREO -->
+    <div class="image-upload" (click)="fileInput.click()">
+      <input type="file" hidden #fileInput (change)="onFileSelected($event)">
+
+      <div *ngIf="!preview" class="placeholder">+</div>
+
+      <img *ngIf="preview" [src]="preview">
+    </div>
+    <div class="image-label">{{ 'ADMIN_CREATE.IMAGE_LABEL' | translate }}</div>
+
+    <div class="field-group">
+      <input 
+        [(ngModel)]="nombre" 
+        [placeholder]="'ADMIN_CREATE.PLACEHOLDER_NAME' | translate">
+      <div class="error" *ngIf="errorNombre">{{ errorNombre }}</div>
+    </div>
+
     <div class="field-group">
       <input 
         [(ngModel)]="correo" 
-        placeholder="Correo"
-        type="email"
-      >
+        [placeholder]="'ADMIN_CREATE.PLACEHOLDER_EMAIL' | translate">
       <div class="error" *ngIf="errorCorreo">{{ errorCorreo }}</div>
     </div>
 
-    <!-- CONTRASEÑA -->
     <div class="field-group">
-      <input 
-        [(ngModel)]="password" 
-        placeholder="Contraseña"
-        [type]="showPassword ? 'text' : 'password'"
-      >
-      <div class="error" *ngIf="errorPassword">{{ errorPassword }}</div>
+      <textarea 
+        [(ngModel)]="funciones" 
+        [placeholder]="'ADMIN_CREATE.PLACEHOLDER_FUNCTIONS' | translate"></textarea>
+      <div class="error" *ngIf="errorFunciones">{{ errorFunciones }}</div>
     </div>
 
-    <!-- BOTÓN -->
     <button class="btn-primary" (click)="agregar()">
-      Agregar
+      {{ 'ADMIN_CREATE.BTN_ADD' | translate }}
     </button>
 
   </div>
