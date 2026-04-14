@@ -15,7 +15,6 @@ import { AdminSessionService } from '../../core/services/admin-session.service';
   styleUrl: './admin-create.css'
 })
 export class AdminCreate {
-
   correo: string = '';
   password: string = '';
   showPassword = false;

@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AdminService } from '../../core/services/admin.service';
 import { AdminSessionService } from '../../core/services/admin-session.service';
 
 @Component({
   selector: 'app-admin-edit',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './admin-edit.html',
   styleUrl: './admin-edit.css'
 })
@@ -25,7 +26,8 @@ export class AdminEdit implements OnInit {
   constructor(
     private router: Router,
     private adminService: AdminService,
-    private adminSession: AdminSessionService
+    private adminSession: AdminSessionService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -45,11 +47,11 @@ export class AdminEdit implements OnInit {
 
     const mail = this.editMail.trim().toLowerCase();
     if (!mail || !mail.includes('@')) {
-      this.errorMsg = 'Correo inválido';
+      this.errorMsg = this.translate.instant('ADMIN_CREATE.ERR_EMAIL');
       return;
     }
     if (!this.editPassword || this.editPassword.length < 6) {
-      this.errorMsg = 'La contraseña debe tener al menos 6 caracteres';
+      this.errorMsg = 'Minimo 6 caracteres';
       return;
     }
 
@@ -84,7 +86,7 @@ export class AdminEdit implements OnInit {
           return;
         }
 
-        this.errorMsg = err?.error?.message || 'No se pudo editar el administrador';
+        this.errorMsg = err?.error?.message || this.translate.instant('ADMIN_DELETED.SUBTITLE');
       }
     });
   }
