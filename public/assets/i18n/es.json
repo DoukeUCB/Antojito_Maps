@@ -193,5 +193,24 @@
     "UPLOAD_SUB": "JPG, PNG o WEBP · Máx. 5MB",
     "SAVING": "Guardando...",
     "BTN_SAVE_PROFILE": "Guardar cambios"
+  },
+  "ADMIN_LOGIN": {
+  "BACK": "Volver",
+  "SIDE_TITLE": "Panel de administración",
+  "SIDE_SUB": "Gestiona restaurantes, usuarios y el contenido de la plataforma.",
+  "FEATURE_SYSTEM": "Control total del sistema",
+  "FEATURE_RESTAURANTS": "Gestión de restaurantes",
+  "FEATURE_MONITOR": "Monitoreo de actividad",
+  "FORM_TITLE": "Administrador",
+  "FORM_SUB": "Accede al panel de control",
+  "EMAIL": "Correo",
+  "PASSWORD": "Contraseña",
+  "PASS_PLACEHOLDER": "Ingresa tu contraseña",
+  "BTN_LOGIN": "Iniciar sesión",
+  "BTN_LOADING": "Cargando...",
+  "ERR_EMAIL_EMPTY": "El correo no puede estar vacío",
+  "ERR_EMAIL_INVALID": "El correo debe contener '@'",
+  "ERR_PASS_EMPTY": "La contraseña no puede estar vacía",
+  "ERR_CREDENTIALS": "Credenciales incorrectas"
   }
 }

@@ -193,5 +193,24 @@
     "UPLOAD_SUB": "JPG, PNG or WEBP · Max. 5MB",
     "SAVING": "Saving...",
     "BTN_SAVE_PROFILE": "Save changes"
+  },
+  "ADMIN_LOGIN": {
+  "BACK": "Back",
+  "SIDE_TITLE": "Admin Panel",
+  "SIDE_SUB": "Manage restaurants, users, and platform content.",
+  "FEATURE_SYSTEM": "Full system control",
+  "FEATURE_RESTAURANTS": "Restaurant management",
+  "FEATURE_MONITOR": "Activity monitoring",
+  "FORM_TITLE": "Administrator",
+  "FORM_SUB": "Access the control panel",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "PASS_PLACEHOLDER": "Enter your password",
+  "BTN_LOGIN": "Log In",
+  "BTN_LOADING": "Loading...",
+  "ERR_EMAIL_EMPTY": "Email cannot be empty",
+  "ERR_EMAIL_INVALID": "Email must contain '@'",
+  "ERR_PASS_EMPTY": "Password cannot be empty",
+  "ERR_CREDENTIALS": "Invalid credentials"
   }
 }
