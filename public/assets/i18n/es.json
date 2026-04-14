@@ -230,5 +230,13 @@
     "ERR_NAME": "Nombre requerido",
     "ERR_EMAIL": "Correo inválido",
     "ERR_FUNCTIONS": "Funciones requeridas"
+  },
+  "ADMIN_DELETED": {
+    "BACK": "Volver",
+    "TITLE": "Administradores eliminados",
+    "SUBTITLE": "Gestiona administradores eliminados",
+    "STATUS_DELETED": "Eliminado",
+    "BTN_RESTORE": "Restaurar",
+    "ALERT_RESTORED": "Restaurado"
   }
 }
