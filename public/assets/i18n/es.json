@@ -255,6 +255,7 @@
   "ADMIN_LIST": {
     "TITLE": "Administradores",
     "BTN_ADD": "+ Agregar",
+    "BTN_SAVE": "Guardar cambios",
     "CONFIRM_DELETE": "¿Estás seguro de que deseas eliminar a este administrador?"
   }
 }

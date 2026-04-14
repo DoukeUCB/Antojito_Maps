@@ -23,6 +23,14 @@
 
   <div class="grid">
 
+    <div class="card" *ngIf="cargando">
+      <h3>Cargando restaurantes...</h3>
+    </div>
+
+    <div class="card" *ngIf="errorMsg && !cargando">
+      <h3>{{ errorMsg }}</h3>
+    </div>
+
     <div class="card" *ngFor="let r of restaurantes">
 
       <div class="lock">
@@ -45,6 +53,10 @@
         {{ (r.bloqueado ? 'ADMIN_RESTAURANTS.BTN_UNBLOCK' : 'ADMIN_RESTAURANTS.BTN_BLOCK') | translate }}
       </button>
 
+    </div>
+
+    <div class="card" *ngIf="!cargando && !errorMsg && restaurantes.length === 0">
+      <h3>No hay restaurantes para mostrar.</h3>
     </div>
 
   </div>

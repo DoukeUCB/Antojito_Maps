@@ -15,20 +15,32 @@
 
   <div class="list">
 
+    <div class="card" *ngIf="cargando">
+      <div class="info">
+        <h3>Cargando administradores eliminados...</h3>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="errorMsg && !cargando">
+      <div class="info">
+        <h3>{{ errorMsg }}</h3>
+      </div>
+    </div>
+
     <div class="card" *ngFor="let admin of adminsEliminados">
 
       <div class="info">
-        <h3>{{ admin.nombre }}</h3>
-        <p>{{ admin.email }}</p>
+        <h3>{{ admin.mail }}</h3>
+        <p *ngIf="admin.deletedAt">Eliminado: {{ admin.deletedAt | date:'short' }}</p>
         <span class="estado">{{ 'ADMIN_DELETED.STATUS_DELETED' | translate }}</span>
       </div>
 
-      <div class="actions">
-        <button (click)="restaurar(admin)">
-          {{ 'ADMIN_DELETED.BTN_RESTORE' | translate }}
-        </button>
-      </div>
+    </div>
 
+    <div class="card" *ngIf="!cargando && !errorMsg && adminsEliminados.length === 0">
+      <div class="info">
+        <h3>No hay administradores eliminados.</h3>
+      </div>
     </div>
 
   </div>
