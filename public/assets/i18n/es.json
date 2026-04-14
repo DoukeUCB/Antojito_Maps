@@ -238,5 +238,18 @@
     "STATUS_DELETED": "Eliminado",
     "BTN_RESTORE": "Restaurar",
     "ALERT_RESTORED": "Restaurado"
+  },
+  "ADMIN_RESTAURANTS": {
+    "BTN_MANAGE_ADMINS": "Administrar",
+    "TITLE": "Panel de restaurantes",
+    "SUBTITLE": "Administra el estado y suscripciones de los restaurantes.",
+    "LABEL_SUBSCRIPTION": "Suscripción",
+    "LABEL_TIME": "Tiempo restante",
+    "BTN_BLOCK": "Bloquear",
+    "BTN_UNBLOCK": "Desbloquear",
+    "DAYS": "días",
+    "PLAN_NONE": "Ninguna",
+    "PLAN_MONTHLY": "Mensual",
+    "PLAN_ANNUAL": "Anual"
   }
 }
