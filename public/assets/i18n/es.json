@@ -225,8 +225,8 @@
     "BTN_LOGIN": "Iniciar sesión",
     "BTN_LOADING": "Cargando...",
     "ERR_EMAIL_EMPTY": "El correo no puede estar vacío",
-    "ERR_EMAIL_INVALID": "El correo debe contener '@'",
-    "ERR_PASS_EMPTY": "La contraseña no puede estar vacía",
+    "ERR_EMAIL_INVALID": "Ingrese un correo institucional válido",
+    "ERR_PASS_INVALID": "La contraseña no puede estar vacía",
     "ERR_CREDENTIALS": "Credenciales incorrectas"
   },
   "ADMIN_DASHBOARD": {

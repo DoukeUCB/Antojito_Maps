@@ -225,8 +225,8 @@
     "BTN_LOGIN": "Log In",
     "BTN_LOADING": "Loading...",
     "ERR_EMAIL_EMPTY": "Email cannot be empty",
-    "ERR_EMAIL_INVALID": "Email must contain '@'",
-    "ERR_PASS_EMPTY": "Password cannot be empty",
+    "ERR_EMAIL_INVALID": "Enter a valid institutional email",
+    "ERR_PASS_INVALID": "Password cannot be empty",
     "ERR_CREDENTIALS": "Invalid credentials"
   },
   "ADMIN_DASHBOARD": {

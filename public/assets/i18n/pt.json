@@ -199,8 +199,8 @@
     "BTN_SAVE_PROFILE": "Salvar alterações"
   },
   "ADMIN_LOGIN": {
-    "BACK": "Volver",
-    "SIDE_TITLE": "Painel de administração",
+    "BACK": "Voltar",
+    "SIDE_TITLE": "Painel de Administração",
     "SIDE_SUB": "Gerencie restaurantes, usuários e o conteúdo da plataforma.",
     "FEATURE_SYSTEM": "Controle total do sistema",
     "FEATURE_RESTAURANTS": "Gestão de restaurantes",
@@ -210,11 +210,11 @@
     "EMAIL": "E-mail",
     "PASSWORD": "Senha",
     "PASS_PLACEHOLDER": "Digite sua senha",
-    "BTN_LOGIN": "Iniciar sessão",
+    "BTN_LOGIN": "Entrar",
     "BTN_LOADING": "Carregando...",
     "ERR_EMAIL_EMPTY": "O e-mail não pode estar vazio",
-    "ERR_EMAIL_INVALID": "O e-mail deve conter '@'",
-    "ERR_PASS_EMPTY": "A senha não pode estar vazia",
+    "ERR_EMAIL_INVALID": "Insira um e-mail institucional válido",
+    "ERR_PASS_INVALID": "A senha não pode estar vazia",
     "ERR_CREDENTIALS": "Credenciais incorretas"
   },
   "ADMIN_DASHBOARD": {
