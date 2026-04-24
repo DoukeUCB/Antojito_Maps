@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -27,7 +27,8 @@ export class AdminEdit implements OnInit {
     private router: Router,
     private adminService: AdminService,
     private adminSession: AdminSessionService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private location:     Location
   ) {}
 
   ngOnInit(): void {
@@ -92,6 +93,6 @@ export class AdminEdit implements OnInit {
   }
 
   volver(): void {
-    this.router.navigate(['/admin']);
+    this.location.back();
   }
 }

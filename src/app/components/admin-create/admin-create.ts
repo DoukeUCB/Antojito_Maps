@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoggerService } from '../../core/services/logger.service';
@@ -31,7 +31,8 @@ export class AdminCreate {
     private logger: LoggerService,
     private translate: TranslateService,
     private adminService: AdminService,
-    private adminSession: AdminSessionService
+    private adminSession: AdminSessionService,
+    private location:     Location
   ) {}
 
   agregar() {
@@ -131,11 +132,6 @@ export class AdminCreate {
   }
 
   volver(): void {
-    if (this.adminSession.isAuthenticated()) {
-      this.router.navigate(['/admin']);
-      return;
+    this.location.back();
     }
-
-    this.router.navigate(['/admin/login']);
-  }
 }
