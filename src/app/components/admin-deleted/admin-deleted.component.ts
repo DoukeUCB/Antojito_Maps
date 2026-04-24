@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AdminSessionService } from '../../core/services/admin-session.service';
 import { environment } from '../../../environments/environment';
@@ -26,7 +26,8 @@ export class AdminDeletedComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private adminSession: AdminSessionService,
     private zone: NgZone,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private location:     Location
   ) {}
 
   ngOnInit(): void {
@@ -77,8 +78,6 @@ export class AdminDeletedComponent implements OnInit, OnDestroy {
     xhr.onreadystatechange = () => {
       if (resolved) return;
 
-      // Algunos backends envian el JSON completo y dejan la conexion abierta.
-      // Si el payload ya es parseable en readyState 3, lo consumimos sin esperar cierre.
       if (xhr.readyState >= XMLHttpRequest.LOADING) {
         const parsedPayload = this.tryParseJsonPayload(xhr.responseText ?? '');
         if (parsedPayload !== null) {
@@ -120,7 +119,7 @@ export class AdminDeletedComponent implements OnInit, OnDestroy {
   }
 
   volver() {
-    this.router.navigate(['/admin']);
+    this.location.back();
   }
 
   private extractList(items: unknown): any[] {
