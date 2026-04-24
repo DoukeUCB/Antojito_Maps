@@ -54,7 +54,10 @@
     "PLACEHOLDER_PASS": "Your password",
     "SUBMIT_BTN": "Login",
     "DIVIDER": "Don't have an account?",
-    "REGISTER_BTN": "Register my restaurant"
+    "REGISTER_BTN": "Register my restaurant",
+    "ERR_FILL_ALL": "Please fill in all fields",
+    "ERR_INVALID_EMAIL": "Invalid email format",
+    "EMAIL_HINT": "Example: user@mail.com"
   },
   "MAP": {
     "SEARCH_PLACEHOLDER": "Search restaurant...",

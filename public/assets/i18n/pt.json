@@ -54,7 +54,10 @@
     "PLACEHOLDER_PASS": "Sua senha",
     "SUBMIT_BTN": "Iniciar sessão",
     "DIVIDER": "Não tem uma conta?",
-    "REGISTER_BTN": "Registrar meu restaurante"
+    "REGISTER_BTN": "Registrar meu restaurante",
+    "ERR_FILL_ALL": "Por favor, preencha todos os campos",
+    "ERR_INVALID_EMAIL": "Formato de e-mail inválido",
+    "EMAIL_HINT": "Exemplo: usuario@email.com"
   },
   "MAP": {
     "SEARCH_PLACEHOLDER": "Buscar restaurante...",
