@@ -81,18 +81,6 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     '🍔 Una buena hamburguesa',
   ];
 
-  /* ── Respuestas mock con Metadata de Categoría ──────────────── */
-  private mockRespuestas: Record<string, { texto: string, slug: string }> = {
-    taco: { texto: '¡Buena elección! 🌮 He marcado las mejores taquerías en el mapa para ti.', slug: 'Tacos' },
-    pizza: { texto: '🍕 ¡Perfecto! He ubicado las pizzerías más cercanas en el mapa.', slug: 'Pizzeria' },
-    sushi: { texto: '🍣 ¡Amo el sushi! Mira los puntos dorados destacados en el mapa.', slug: 'Sushi' },
-    burger: { texto: '🍔 ¡Hamburguesas! Aquí tienes las opciones disponibles ahora mismo.', slug: 'Hamburguesas' },
-    tipic: { texto: '🇧🇴 ¡Comida boliviana! He marcado los lugares de comida típica en el mapa.', slug: 'Comida Tipica' },
-    salteña: { texto: '☀️ ¡Salteñas! Los puntos amarillos te muestran dónde encontrarlas.', slug: 'Salteñas' },
-    chicharr: { texto: '🥩 ¡Chicharrón! Mira las opciones que han aparecido en el mapa.', slug: 'Chicharron' },
-    default: { texto: 'Entendido 🤔 Puedo ayudarte a encontrar restaurantes. Prueba con: Tacos, Pizza o Sushi.', slug: '' }
-  };
-
   private readonly destroy$ = new Subject<void>();
 
   constructor(
@@ -114,6 +102,7 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
         this.refreshView();
       });
     this.cargarRestaurantes();
+    this.restaurarConversacion();
   }
 
   ngAfterViewInit(): void {
@@ -126,10 +115,6 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     this.destroy$.complete();
     if (this.map) this.map.remove();
   }
-
-  /* ══════════════════════════════════════════════════════════════
-      MAPA
-     ══════════════════════════════════════════════════════════════ */
 
   private initMap(): void {
     if (this.map) this.map.remove();
@@ -294,10 +279,6 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     return v.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
 
-  /* ══════════════════════════════════════════════════════════════
-      CHATBOT
-     ══════════════════════════════════════════════════════════════ */
-
   toggleChatbot(): void {
     this.chatbotAbierto = !this.chatbotAbierto;
     if (this.chatbotAbierto) {
@@ -327,11 +308,11 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     }).subscribe({
       next: (res) => {
         this.conversationId = res.conversationId;
+        localStorage.setItem('antojitos_conversationId', res.conversationId);
 
         this.chatbotEscribiendo = false;
         this.agregarMensaje('bot', res.reply);
 
-        // 🔥 LÓGICA REAL (tu HU)
         this.procesarBusquedaIA(trimmed);
 
         if (!this.chatbotAbierto) this.mensajesNoLeidos++;
@@ -363,23 +344,39 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     return new Date().toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' });
   }
 
-  private mockResponderData(texto: string): Promise<{ texto: string, slug: string }> {
-    const lower = texto.toLowerCase();
-    let key = 'default';
-    if (lower.includes('taco')) key = 'taco';
-    else if (lower.includes('pizza') || lower.includes('italia')) key = 'pizza';
-    else if (lower.includes('sushi')) key = 'sushi';
-    else if (lower.includes('burger') || lower.includes('hambur')) key = 'burger';
-    else if (lower.includes('típic') || lower.includes('tipic')) key = 'tipic';
-    else if (lower.includes('salteña')) key = 'salteña';
-    else if (lower.includes('chichar')) key = 'chicharr';
+  /**
+   * Restaura la conversacion desde localStorage al recargar la pagina.
+   * Carga el historial de mensajes desde el backend.
+   */
+  private restaurarConversacion(): void {
+    const savedId = localStorage.getItem('antojitos_conversationId');
+    if (!savedId) return;
 
-    const res = this.mockRespuestas[key];
-    return new Promise(resolve => setTimeout(() => resolve(res), 1200));
+    this.conversationId = savedId;
+    this.chatService.obtenerHistorial(savedId).subscribe({
+      next: (historial) => {
+        if (historial.messages && historial.messages.length > 0) {
+          // Reemplazar el mensaje de bienvenida con el historial real
+          this.chatMensajes = historial.messages.map((m: any, i: number) => ({
+            id: (i + 1).toString(),
+            rol: m.role === 'assistant' ? 'bot' as const : 'user' as const,
+            texto: m.content,
+            hora: m.timestamp
+              ? new Date(m.timestamp).toLocaleTimeString('es-BO', { hour: '2-digit', minute: '2-digit' })
+              : ''
+          }));
+          this.mostrarSugerencias = false;
+          this.refreshView();
+          setTimeout(() => this.scrollAlFinal(), 100);
+        }
+      },
+      error: () => {
+        // Conversacion no encontrada, limpiar localStorage
+        localStorage.removeItem('antojitos_conversationId');
+        this.conversationId = null;
+      }
+    });
   }
-  /* ══════════════════════════════════════════════════════════════
-      IA + FALLBACK (HU)
-  ══════════════════════════════════════════════════════════════ */
 
   private procesarBusquedaIA(texto: string): void {
     if (!this.locationMarker) return;
@@ -390,7 +387,7 @@ export class MapPage implements OnInit, AfterViewInit, OnDestroy {
     let resultados = this.buscarRestaurantesCercanos(
       userLatLng.lat,
       userLatLng.lng,
-      10, // <-- Cambiado de 10 a 0.01 para forzar el fallback (10 metros)
+      0.1,
       categoria
     );
 
